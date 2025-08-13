@@ -3,46 +3,63 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Services\CommandeService;
+use App\Http\Requests\CommandeRequest;
 class CommandeController extends Controller
 {
+    protected $commandeService;
+
+    public function __construct(CommandeService $commandeService)
+    {
+        $this->commandeService = $commandeService;
+    }
+
     /**
-     * Display a listing of the resource.
+     * Lister toutes les commandes
      */
     public function index()
     {
-        //
+        $commandes = $this->commandeService->index();
+        return response()->json($commandes, 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Créer une nouvelle commande
      */
-    public function store(Request $request)
+    public function store(CommandeRequest $request)
     {
-        //
+        $commande = $this->commandeService->store($request->validated());
+        return response()->json($commande, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Afficher une commande spécifique
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $commande = $this->commandeService->show($id);
+        return response()->json($commande, 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour une commande
      */
-    public function update(Request $request, string $id)
+    public function update(CommandeRequest $request, int $id)
     {
-        //
+        $commande = $this->commandeService->update($request->validated(), $id);
+
+        return response()->json([
+            "message" => "Commande mise à jour",
+            "commande" => $commande
+        ], 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer une commande
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->commandeService->destroy($id);
+        return response()->json("", 204);
     }
 }

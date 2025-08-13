@@ -24,11 +24,11 @@ class ProduitRequest extends FormRequest
         return [
             'nom'         => 'required',
             'description' => 'nullable',
-            'prix'        => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'allergenes'  => 'nullable|json',
-            'id_categorie'=> 'required|exists:categories,id'
+            'prix'        => 'required',
+            'stock'       => 'required',
+            'image'       => 'nullable',
+            'allergenes'  => 'nullable',
+            'id_categorie'=> 'required'
         ];
     }
 }

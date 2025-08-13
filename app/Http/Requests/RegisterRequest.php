@@ -26,8 +26,7 @@ class RegisterRequest extends FormRequest
             'prenom' => 'required',
             'email' => 'required',
             'telephone' => 'required',
-            'password' => 'required'
-
+            'password' => 'required',
         ];
     }
 }

@@ -1,48 +1,64 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\ProduitRequest;
 use Illuminate\Http\Request;
+use App\Services\ProduitService;
 
 class ProduitController extends Controller
 {
+    protected $produitService;
+
+    public function __construct(ProduitService $produitService)
+    {
+        $this->produitService = $produitService;
+    }
+
     /**
-     * Display a listing of the resource.
+     * Lister tous les produits
      */
     public function index()
     {
-        //
+        $produits = $this->produitService->index();
+        return response()->json($produits, 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Créer un produit
      */
-    public function store(Request $request)
+    public function store(ProduitRequest $request)
     {
-        //
+        $produit = $this->produitService->store($request->validated());
+        return response()->json($produit, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Afficher un produit
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $produit = $this->produitService->show($id);
+        return response()->json($produit, 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour un produit
      */
-    public function update(Request $request, string $id)
+    public function update(ProduitRequest $request, int $id)
     {
-        //
+        $produit = $this->produitService->update($request->validated(), $id);
+        return response()->json([
+            "message" => "Produit modifié",
+            "produit" => $produit
+        ], 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer un produit
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->produitService->destroy($id);
+        return response()->json("", 204);
     }
 }

@@ -9,4 +9,5 @@ class Commande extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
 }

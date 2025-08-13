@@ -18,8 +18,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/user', \App\Http\Controllers\AuthController::class)->middleware('auth:sanctum');
-Route::apiResource('/categorie', \App\Http\Controllers\CategorieController::class)->middleware('auth:sanctum');
+Route::apiResource('/user', \App\Http\Controllers\AuthController::class);//->middleware('auth:sanctum');
+Route::apiResource('/categorie', \App\Http\Controllers\CategorieController::class);//->middleware('auth:sanctum');
+Route::apiResource('/produit', \App\Http\Controllers\ProduitController::class);//->middleware('auth:sanctum');
+Route::apiResource('/commande', \App\Http\Controllers\CommandeController::class);//->middleware('auth:sanctum');
+Route::apiResource('/commandeProduit', \App\Http\Controllers\CommandeProduitController::class);//->middleware('auth:sanctum');
 
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);

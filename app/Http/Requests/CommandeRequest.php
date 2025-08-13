@@ -23,9 +23,9 @@ class CommandeRequest extends FormRequest
     {
         return [
             'id_client' => 'required',
-            'statut'         => 'required',
             'total'          => 'required',
-            'mode_paiement'  => 'required',
+            'statut' => 'required|in:EN_PREPARATION,PRETE,EN_LIVRAISON,LIVREE',
+            'mode_paiement' => 'required|in:EN_LIGNE,A_LA_LIVRAISON',
             'date_commande'  => 'required'
         ];
     }

@@ -9,4 +9,7 @@ class Produit extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'allergenes' => 'array', // Eloquent se charge de convertir JSON <-> array
+    ];
 }

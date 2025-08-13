@@ -3,46 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Http\Requests\CommandeProduitRequest;
+use App\Services\CommandeProduitService;
 class CommandeProduitController extends Controller
 {
+    protected $commandeProduitService;
+
+    public function __construct(CommandeProduitService $commandeProduitService)
+    {
+        $this->commandeProduitService = $commandeProduitService;
+    }
+
     /**
-     * Display a listing of the resource.
+     * Lister tous les enregistrements
      */
     public function index()
     {
-        //
+        $items = $this->commandeProduitService->index();
+        return response()->json($items, 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Créer un nouvel enregistrement
      */
-    public function store(Request $request)
+    public function store(CommandeProduitRequest $request)
     {
-        //
+        $item = $this->commandeProduitService->store($request->validated());
+        return response()->json($item, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Afficher un enregistrement
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $item = $this->commandeProduitService->show($id);
+        return response()->json($item, 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour un enregistrement
      */
-    public function update(Request $request, string $id)
+    public function update(CommandeProduitRequest $request, int $id)
     {
-        //
+        $item = $this->commandeProduitService->update($request->validated(), $id);
+        return response()->json([
+            "message" => "CommandeProduit modifié",
+            "data" => $item
+        ], 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer un enregistrement
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->commandeProduitService->destroy($id);
+        return response()->json("", 204);
     }
 }
