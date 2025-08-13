@@ -21,7 +21,6 @@ class UserService
     public function destroy(int $id)
     {
         User::destroy($id);
-
     }
     public function show($id)
     {
