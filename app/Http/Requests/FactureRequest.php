@@ -22,7 +22,9 @@ class FactureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id_commande'  => 'required|exists:commandes,id',
+            'date_facture' => 'required|date',
+            'montant_total'=> 'required|numeric|min:0',
         ];
     }
 }

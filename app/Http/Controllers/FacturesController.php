@@ -3,46 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\FactureService;
+use App\Http\Requests\FactureRequest;
 
 class FacturesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $factureService;
+
+    public function __construct(FactureService $factureService)
+    {
+        $this->factureService = $factureService;
+    }
+
     public function index()
     {
-        //
+        return response()->json($this->factureService->index(), 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(FactureRequest $request)
     {
-        //
+        $facture = $this->factureService->store($request->validated());
+        return response()->json($facture, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $facture = $this->factureService->show($id);
+        return response()->json($facture, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(FactureRequest $request, int $id)
     {
-        //
+        $facture = $this->factureService->update($request->validated(), $id);
+        return response()->json([
+            'message' => 'Facture modifiée',
+            'facture' => $facture
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->factureService->destroy($id);
+        return response()->json('', 204);
     }
 }

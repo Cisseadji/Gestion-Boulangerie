@@ -22,7 +22,9 @@ class ChatMessageequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id_expediteur'    => 'required|exists:users,id',
+            'id_destinataire'  => 'required|exists:users,id',
+            'contenu'          => 'required|string',
         ];
     }
 }

@@ -27,6 +27,9 @@ Route::apiResource('/livraison', \App\Http\Controllers\LivraisonController::clas
 Route::apiResource('/promotion', \App\Http\Controllers\PromotionController::class);//->middleware('auth:sanctum');
 Route::apiResource('/pack', \App\Http\Controllers\PackController::class);//->middleware('auth:sanctum');
 Route::apiResource('/packProduit', \App\Http\Controllers\PackProduitController::class);//->middleware('auth:sanctum');
+Route::apiResource('/livraison', \App\Http\Controllers\LivraisonController::class);//->middleware('auth:sanctum');
+Route::apiResource('/facture', \App\Http\Controllers\FacturesController::class);//->middleware('auth:sanctum');
+Route::apiResource('/chatMessage', \App\Http\Controllers\ChatMessageController::class);//->middleware('auth:sanctum');
 
 
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);

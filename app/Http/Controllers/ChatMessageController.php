@@ -2,47 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChatMessageequest;
+use App\services\ChatMessageService;
 use Illuminate\Http\Request;
 
 class ChatMessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $chatMessageService;
+
+    public function __construct(ChatMessageService $chatMessageService)
+    {
+        $this->chatMessageService = $chatMessageService;
+    }
+
     public function index()
     {
-        //
+        return response()->json($this->chatMessageService->index(), 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(ChatMessageequest $request)
     {
-        //
+        $message = $this->chatMessageService->store($request->validated());
+        return response()->json($message, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        return response()->json($this->chatMessageService->show($id), 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(ChatMessageequest $request, int $id)
     {
-        //
+        $message = $this->chatMessageService->update($request->validated(), $id);
+        return response()->json([
+            'message' => 'Message modifié',
+            'data' => $message
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->chatMessageService->destroy($id);
+        return response()->json('', 204);
     }
 }
