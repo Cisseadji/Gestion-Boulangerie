@@ -22,7 +22,9 @@ class PackProduitRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'id_pack'    => 'required|exists:packs,id',
+            'id_produit' => 'required|exists:produits,id',
+            'quantite'   => 'required|integer|min:1',
         ];
     }
 }

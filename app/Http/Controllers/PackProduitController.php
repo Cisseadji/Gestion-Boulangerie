@@ -3,46 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Http\Requests\PackProduitRequest;
+use App\Services\PackProduitService;
 class PackProduitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $packProduitService;
+
+    public function __construct(PackProduitService $packProduitService)
+    {
+        $this->packProduitService = $packProduitService;
+    }
+
     public function index()
     {
-        //
+        $items = $this->packProduitService->index();
+        return response()->json($items, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(PackProduitRequest $request)
     {
-        //
+        $item = $this->packProduitService->store($request->validated());
+        return response()->json($item, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $item = $this->packProduitService->show($id);
+        return response()->json($item, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(PackProduitRequest $request, int $id)
     {
-        //
+        $item = $this->packProduitService->update($request->validated(), $id);
+        return response()->json([
+            "message" => "PackProduit modifié",
+            "data" => $item
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->packProduitService->destroy($id);
+        return response()->json("", 204);
     }
 }
