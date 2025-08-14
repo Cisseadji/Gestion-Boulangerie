@@ -23,6 +23,7 @@ Route::apiResource('/categorie', \App\Http\Controllers\CategorieController::clas
 Route::apiResource('/produit', \App\Http\Controllers\ProduitController::class);//->middleware('auth:sanctum');
 Route::apiResource('/commande', \App\Http\Controllers\CommandeController::class);//->middleware('auth:sanctum');
 Route::apiResource('/commandeProduit', \App\Http\Controllers\CommandeProduitController::class);//->middleware('auth:sanctum');
+Route::apiResource('/livraison', \App\Http\Controllers\LivraisonController::class);//->middleware('auth:sanctum');
 
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);

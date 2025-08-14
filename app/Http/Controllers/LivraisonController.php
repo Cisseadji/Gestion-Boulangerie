@@ -3,46 +3,63 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\LivraisonService;
+use App\Http\Requests\LivraisonRequest;
 
 class LivraisonController extends Controller
 {
+    protected $livraisonService;
+
+    public function __construct(LivraisonService $livraisonService)
+    {
+        $this->livraisonService = $livraisonService;
+    }
+
     /**
-     * Display a listing of the resource.
+     * Lister toutes les livraisons
      */
     public function index()
     {
-        //
+        $livraisons = $this->livraisonService->index();
+        return response()->json($livraisons, 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Créer une livraison
      */
-    public function store(Request $request)
+    public function store(LivraisonRequest $request)
     {
-        //
+        $livraison = $this->livraisonService->store($request->validated());
+        return response()->json($livraison, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Afficher une livraison
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $livraison = $this->livraisonService->show($id);
+        return response()->json($livraison, 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour une livraison
      */
-    public function update(Request $request, string $id)
+    public function update(LivraisonRequest $request, int $id)
     {
-        //
+        $livraison = $this->livraisonService->update($request->validated(), $id);
+        return response()->json([
+            "message" => "Livraison modifiée",
+            "livraison" => $livraison
+        ], 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer une livraison
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->livraisonService->destroy($id);
+        return response()->json("", 204);
     }
 }

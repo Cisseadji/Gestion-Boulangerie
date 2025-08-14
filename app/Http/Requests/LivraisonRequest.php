@@ -24,8 +24,11 @@ class LivraisonRequest extends FormRequest
         return [
             'id_commande'   => 'required',
             'adresse'       => 'required',
-            'date_livraison'=> 'required|date|after_or_equal:today',
-            'statut'        => 'required|in:EN_ATTENTE,EN_ROUTE,LIVREE'
+            'date_livraison'=> 'nullable|date|after_or_equal:today',
+            'date_prevue'   => 'required|date',
+            'statut' => 'required|in:EN_COURS,LIVREE,ANNULEE',
+
         ];
     }
+
 }
