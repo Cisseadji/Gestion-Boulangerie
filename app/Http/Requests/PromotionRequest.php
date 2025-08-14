@@ -22,11 +22,12 @@ class PromotionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom'           => 'required',
-            'description'   => 'nullable',
-            'remise'        => 'required|numeric|min:0|max:100',
-            'date_debut'    => 'required|date|before_or_equal:date_fin',
-            'date_fin'      => 'required|date|after_or_equal:date_debut'
+            'titre' => 'required|string|max:150',
+            'description' => 'required|string',
+            'pourcentage_remise' => 'required|numeric|min:0|max:100',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date|after_or_equal:date_debut',
+            'actif' => 'nullable|boolean',
         ];
     }
 }
