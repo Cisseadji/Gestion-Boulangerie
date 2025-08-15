@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ChatMessageequest;
 use App\services\ChatMessageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ChatMessageController extends Controller
 {
@@ -13,6 +14,12 @@ class ChatMessageController extends Controller
     public function __construct(ChatMessageService $chatMessageService)
     {
         $this->chatMessageService = $chatMessageService;
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('use-chat')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        });
     }
 
     public function index()

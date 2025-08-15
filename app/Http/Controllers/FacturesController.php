@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\FactureService;
 use App\Http\Requests\FactureRequest;
+use Illuminate\Support\Facades\Gate;
 
 class FacturesController extends Controller
 {
@@ -13,6 +14,37 @@ class FacturesController extends Controller
     public function __construct(FactureService $factureService)
     {
         $this->factureService = $factureService;
+        // Voir les factures (ADMIN, EMPLOYE, CLIENT)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('view-factures')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['index', 'show']);
+
+        // Créer une facture (ADMIN, EMPLOYE)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('create-factures')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['store']);
+
+        // Mettre à jour une facture (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('update-factures')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['update']);
+
+        // Supprimer une facture (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('delete-factures')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['destroy']);
     }
 
     public function index()

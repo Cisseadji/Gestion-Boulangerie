@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\PackProduitRequest;
 use App\Services\PackProduitService;
+use Illuminate\Support\Facades\Gate;
+
 class PackProduitController extends Controller
 {
     protected $packProduitService;
@@ -12,6 +14,37 @@ class PackProduitController extends Controller
     public function __construct(PackProduitService $packProduitService)
     {
         $this->packProduitService = $packProduitService;
+        // Voir les packs-produits (ADMIN, EMPLOYE, CLIENT)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('view-pack-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['index', 'show']);
+
+        // Créer un pack-produit (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('create-pack-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['store']);
+
+        // Mettre à jour un pack-produit (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('update-pack-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['update']);
+
+        // Supprimer un pack-produit (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('delete-pack-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['destroy']);
     }
 
     public function index()

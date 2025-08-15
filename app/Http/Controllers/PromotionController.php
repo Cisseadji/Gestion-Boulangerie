@@ -6,6 +6,7 @@ use App\Http\Requests\TogglePromotionRequest;
 use Illuminate\Http\Request;
 use App\Services\PromotionService;
 use App\Http\Requests\PromotionRequest;
+use Illuminate\Support\Facades\Gate;
 
 class PromotionController extends Controller
 {
@@ -14,6 +15,45 @@ class PromotionController extends Controller
     public function __construct(PromotionService $promotionService)
     {
         $this->promotionService = $promotionService;
+        // Voir les promotions (ADMIN, EMPLOYE, CLIENT)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('view-promotion')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['index', 'show']);
+
+        // Créer une promotion (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('create-promotion')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['store']);
+
+        // Mettre à jour une promotion (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('update-promotion')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['update']);
+
+        // Supprimer une promotion (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('delete-promotion')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['destroy']);
+
+        // Activer ou désactiver une promotion (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('activate-promotion')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['toggleActif']);
     }
 
     /**

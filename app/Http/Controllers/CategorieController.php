@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\services\CategorieService;
 use App\Http\Requests\CategorieRequest;
+use Illuminate\Support\Facades\Gate;
 
 class CategorieController extends Controller
 {
@@ -13,7 +14,30 @@ class CategorieController extends Controller
 
     public function __construct()
     {
-        $this->CategorieService =new categorieService();
+        $this->categorieService =new categorieService();
+        // Autorisation pour création
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('create-categories')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['store']);
+
+        // Autorisation pour mise à jour
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('update-categories')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['update']);
+
+        // Autorisation pour suppression
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('delete-categories')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['destroy']);
     }
 
     /**
@@ -21,7 +45,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categorie = $this->CategorieService->index();
+        $categorie = $this->categorieService->index();
         return response()->json($categorie,200);
     }
 
@@ -30,7 +54,7 @@ class CategorieController extends Controller
      */
     public function store(CategorieRequest $request) // <-- ICI changement
     {
-        $categorie = $this->CategorieService->store($request->validated());
+        $categorie = $this->categorieService->store($request->validated());
         return response()->json($categorie, 201);
     }
 
@@ -39,7 +63,7 @@ class CategorieController extends Controller
      */
     public function show(string $id)
     {
-        $categorie = $this->CategorieService->show($id);
+        $categorie = $this->categorieService->show($id);
         return response()->json($categorie,200);
     }
 
@@ -48,7 +72,7 @@ class CategorieController extends Controller
      */
     public function update(CategorieRequest  $request, string $id)
     {
-        $categorie = $this->CategorieService->update($request->validated(), $id);
+        $categorie = $this->categorieService->update($request->validated(), $id);
 
         return response()->json([
             "message" => "Offre modifiée",
@@ -62,7 +86,7 @@ class CategorieController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->CategorieService->destroy($id);
+        $this->categorieService->destroy($id);
         return response()->json("",204);
     }
 }

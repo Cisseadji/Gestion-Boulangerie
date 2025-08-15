@@ -6,6 +6,7 @@ use App\Http\Requests\StatutLivraisonRequest;
 use Illuminate\Http\Request;
 use App\Services\LivraisonService;
 use App\Http\Requests\LivraisonRequest;
+use Illuminate\Support\Facades\Gate;
 
 class LivraisonController extends Controller
 {
@@ -14,6 +15,21 @@ class LivraisonController extends Controller
     public function __construct(LivraisonService $livraisonService)
     {
         $this->livraisonService = $livraisonService;
+        // Voir livraison (ADMIN, EMPLOYE, CLIENT)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('view-livraison')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['index', 'show']);
+
+        // Mettre à jour livraison (ADMIN, EMPLOYE)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('update-livraison')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['update']);
     }
 
     /**

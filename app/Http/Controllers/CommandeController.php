@@ -13,6 +13,41 @@ class CommandeController extends Controller
     public function __construct(CommandeService $commandeService)
     {
         $this->commandeService = $commandeService;
+        // Seul ADMIN et EMPLOYE peuvent mettre à jour une commande
+        $this->middleware(function ($request, $next) {
+            if ($request->isMethod('PUT') || $request->isMethod('PATCH')) {
+                if (Gate::denies('update-commande')) {
+                    return response()->json(['message' => 'Non autorisé'], 403);
+                }
+            }
+            return $next($request);
+        })->only(['update']);
+
+        // Tout le monde (ADMIN, EMPLOYE, CLIENT) peut créer une commande
+        $this->middleware(function ($request, $next) {
+            if ($request->isMethod('POST')) {
+                if (Gate::denies('create-commande')) {
+                    return response()->json(['message' => 'Non autorisé'], 403);
+                }
+            }
+            return $next($request);
+        })->only(['store']);
+
+        // ADMIN et EMPLOYE et CLIENT peuvent voir une commande
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('view-commande')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['index', 'show']);
+
+        // Suppression — réservé à ADMIN
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('delete-commande')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['destroy']);
     }
 
     /**

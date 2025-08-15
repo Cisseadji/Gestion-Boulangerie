@@ -5,6 +5,7 @@ use App\Services\PackService;
 use App\Http\Requests\PackRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PackController extends Controller
 {
@@ -13,6 +14,36 @@ class PackController extends Controller
     public function __construct(PackService $packService)
     {
         $this->packService = $packService;
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('view-packs')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['index', 'show']);
+
+        // Créer un pack (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('create-packs')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['store']);
+
+        // Mettre à jour un pack (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('update-packs')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['update']);
+
+        // Supprimer un pack (ADMIN)
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('delete-packs')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['destroy']);
     }
 
     public function index()

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProduitRequest;
 use Illuminate\Http\Request;
 use App\Services\ProduitService;
+use Illuminate\Support\Facades\Gate;
 
 class ProduitController extends Controller
 {
@@ -11,7 +12,31 @@ class ProduitController extends Controller
 
     public function __construct(ProduitService $produitService)
     {
+
         $this->produitService = $produitService;
+        // Autorisation pour création
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('create-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['store']);
+
+        // Autorisation pour mise à jour
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('update-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['update']);
+
+        // Autorisation pour suppression
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('delete-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        })->only(['destroy']);
     }
 
     /**
@@ -28,6 +53,12 @@ class ProduitController extends Controller
      */
     public function store(ProduitRequest $request)
     {
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('manage-produits')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        });
         $produit = $this->produitService->store($request->validated());
         return response()->json($produit, 201);
     }

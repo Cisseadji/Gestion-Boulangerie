@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -13,8 +14,14 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->UserService = $userService;
-    }
 
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('manage-users')) {
+                return response()->json(['message' => 'Non autorisé'], 403);
+            }
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
@@ -44,6 +51,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, string $id)
     {
+
         $user = $this->UserService->update($request->validated(), $id);
         return response()->json([
             'message' => 'user modifiée',
