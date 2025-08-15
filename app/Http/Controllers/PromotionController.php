@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TogglePromotionRequest;
 use Illuminate\Http\Request;
 use App\Services\PromotionService;
 use App\Http\Requests\PromotionRequest;
@@ -61,5 +62,14 @@ class PromotionController extends Controller
     {
         $this->promotionService->destroy($id);
         return response()->json('', 204);
+    }
+    public function toggleActif(TogglePromotionRequest $request, int $id)
+    {
+        $promotion = $this->promotionService->toggleActif($id, $request->validated()['actif']);
+
+        return response()->json([
+            'message' => $promotion->actif ? 'Promotion activée' : 'Promotion désactivée',
+            'promotion' => $promotion
+        ], 200);
     }
 }

@@ -49,4 +49,6 @@ class ProduitService
         Produit::destroy($id);
     }
 
+
+
 }

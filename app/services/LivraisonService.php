@@ -48,4 +48,10 @@ class LivraisonService
         Livraison::destroy($id);
     }
 
+    public function updateStatut(int $id, string $statut)
+    {
+        $livraison = Livraison::findOrFail($id);
+        $livraison->update(['statut' => $statut]); // updated_at sera mis à jour
+        return $livraison;
+    }
 }

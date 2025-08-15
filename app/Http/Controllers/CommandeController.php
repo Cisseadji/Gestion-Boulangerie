@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StatutcommandeRequest;
 use Illuminate\Http\Request;
 use App\Services\CommandeService;
 use App\Http\Requests\CommandeRequest;
@@ -62,4 +63,17 @@ class CommandeController extends Controller
         $this->commandeService->destroy($id);
         return response()->json("", 204);
     }
+    /**
+     * Modifier uniquement le statut d'une commande
+     */
+    public function updateStatut(StatutcommandeRequest $request, int $id)
+    {
+        $commande = $this->commandeService->updateStatut($id, $request->validated()['statut']);
+
+        return response()->json([
+            "message" => "Statut mis à jour",
+            "commande" => $commande
+        ], 200);
+    }
+
 }

@@ -22,8 +22,11 @@ Route::apiResource('/user', \App\Http\Controllers\AuthController::class);//->mid
 Route::apiResource('/categorie', \App\Http\Controllers\CategorieController::class);//->middleware('auth:sanctum');
 Route::apiResource('/produit', \App\Http\Controllers\ProduitController::class);//->middleware('auth:sanctum');
 Route::apiResource('/commande', \App\Http\Controllers\CommandeController::class);//->middleware('auth:sanctum');
+Route::patch('/commande/{id}/statut', [\App\Http\Controllers\CommandeController::class, 'updateStatut']);//->middleware('auth:sanctum');
 Route::apiResource('/commandeProduit', \App\Http\Controllers\CommandeProduitController::class);//->middleware('auth:sanctum');
 Route::apiResource('/livraison', \App\Http\Controllers\LivraisonController::class);//->middleware('auth:sanctum');
+Route::patch('/livraison/{id}/statut', [\App\Http\Controllers\LivraisonController::class, 'updateStatut']);//->middleware('auth:sanctum');
+Route::patch('/promotion/{id}/toggleActif', [\App\Http\Controllers\PromotionController::class, 'toggleActif']);//->middleware('auth:sanctum');
 Route::apiResource('/promotion', \App\Http\Controllers\PromotionController::class);//->middleware('auth:sanctum');
 Route::apiResource('/pack', \App\Http\Controllers\PackController::class);//->middleware('auth:sanctum');
 Route::apiResource('/packProduit', \App\Http\Controllers\PackProduitController::class);//->middleware('auth:sanctum');

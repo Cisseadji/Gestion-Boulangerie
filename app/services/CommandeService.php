@@ -49,4 +49,17 @@ class CommandeService
         Commande::destroy($id);
     }
 
+    /**
+     * Mettre à jour uniquement le statut d'une commande
+     */
+
+    public function updateStatut(int $id, string $statut)
+    {
+        $commande = Commande::findOrFail($id);
+        $commande->update(['statut' => $statut]); // updated_at sera mis à jour
+        return $commande;
+    }
+
+
+
 }

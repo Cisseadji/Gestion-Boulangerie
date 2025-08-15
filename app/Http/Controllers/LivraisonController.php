@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StatutLivraisonRequest;
 use Illuminate\Http\Request;
 use App\Services\LivraisonService;
 use App\Http\Requests\LivraisonRequest;
@@ -61,5 +62,14 @@ class LivraisonController extends Controller
     {
         $this->livraisonService->destroy($id);
         return response()->json("", 204);
+    }
+    public function updateStatut(StatutLivraisonRequest $request, int $id)
+    {
+        $livraison = $this->livraisonService->updateStatut($id, $request->validated()['statut']);
+
+        return response()->json([
+            "message" => "Statut mis à jour",
+            "commande" => $livraison
+        ], 200);
     }
 }

@@ -43,5 +43,11 @@ class PromotionService
     {
         Promotion::destroy($id);
     }
+    public function toggleActif(int $id, bool $actif)
+    {
+        $promotion = Promotion::findOrFail($id);
+        $promotion->update(['actif' => $actif]);
+        return $promotion;
+    }
 
 }
