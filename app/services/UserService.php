@@ -14,8 +14,17 @@ class UserService
 
     public function store(array $request)
     {
-        $users = User::create($request);
-        return $users;
+        $user = User::create([
+            'nom' => $request['nom'],
+            'prenom' => $request['prenom'],
+            'email' => $request['email'],
+            'telephone' => $request['telephone'],
+            'password' => bcrypt($request['password']),
+            'role' => $request['role'],
+            'actif' => true,
+        ]);
+
+        return $user;
     }
 
     public function destroy(int $id)

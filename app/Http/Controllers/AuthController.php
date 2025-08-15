@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserRequest;
 use App\Services\AuthService;
 use App\services\UserService;
 use Illuminate\Http\Request;
@@ -15,7 +16,6 @@ class AuthController extends Controller
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
-        $this->UserService =new UserService();
     }
 
     public function register(RegisterRequest $request)
@@ -56,11 +56,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $user = $this->UserService->index();
-        return response()->json($user,200);
-    }
+
+
+
 
 
 }
