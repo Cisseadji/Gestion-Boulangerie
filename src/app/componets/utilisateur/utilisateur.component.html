@@ -1,0 +1,32 @@
+<div class="container">
+  <button class="btn btn-success" routerLink="/admin/addUser">Ajouter</button>
+  <table class="table mt-3 table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Rôle</th>
+        <th>Actif</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.nom }}</td>
+        <td>{{ user.prenom }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.telephone }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.actif ? 'Oui' : 'Non' }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id!)">Supprimer</button>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/admin/updateUser', user.id]">Modifier</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

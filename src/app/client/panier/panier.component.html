@@ -1,0 +1,38 @@
+<!-- panier.component.html -->
+<div class="container mt-3">
+  <h3>Mon Panier</h3>
+
+  <table class="table table-bordered mt-2" *ngIf="cart.items().length; else vide">
+    <thead>
+      <tr>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix Unitaire</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cart.items()">
+        <td>{{ item.produit.nom }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.produit.prix | currency:'EUR' }}</td>
+        <td>{{ item.produit.prix * item.quantity | currency:'EUR' }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="cart.remove(item.produit.id)">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #vide>
+    <p class="text-muted">Votre panier est vide.</p>
+  </ng-template>
+
+  <div class="d-flex justify-content-between mt-3" *ngIf="cart.items().length">
+    <h5>Total : {{ cart.total() | currency:'EUR' }}</h5>
+    <button class="btn btn-success" (click)="commander()">Commander</button>
+  </div>
+</div>

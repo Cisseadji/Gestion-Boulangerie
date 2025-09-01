@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <h2>{{ id ? "Modifier un produit" : "Ajouter un produit" }}</h2>
+
+  <form [formGroup]="produitForm" (ngSubmit)="onSubmit()">
+    <!-- Nom -->
+    <label>Nom</label>
+    <input type="text" class="form-control" formControlName="nom" />
+    <div *ngIf="submitted && f['nom'].errors">
+      <span class="text-danger" *ngIf="f['nom'].errors['required']">Nom obligatoire</span>
+      <span class="text-danger" *ngIf="f['nom'].errors['minlength']">Min 2 caractères</span>
+    </div>
+
+    <!-- Description -->
+    <label>Description</label>
+    <textarea class="form-control" formControlName="description"></textarea>
+    <div *ngIf="submitted && f['description'].errors">
+      <span class="text-danger">Description obligatoire</span>
+    </div>
+
+    <!-- Prix -->
+    <label>Prix</label>
+    <input type="number" class="form-control" formControlName="prix" />
+    <div *ngIf="submitted && f['prix'].errors">
+      <span class="text-danger" *ngIf="f['prix'].errors['required']">Prix obligatoire</span>
+      <span class="text-danger" *ngIf="f['prix'].errors['min']">Prix > 0</span>
+    </div>
+
+    <!-- Stock -->
+    <label>Stock</label>
+    <input type="number" class="form-control" formControlName="stock" />
+    <div *ngIf="submitted && f['stock'].errors">
+      <span class="text-danger">Stock obligatoire</span>
+    </div>
+
+<div *ngIf="!id"> <!-- Image obligatoire seulement en ajout -->
+    <label>Image</label>
+    <input type="file" class="form-control" (change)="onFileSelected($event)" />
+    <div *ngIf="submitted && !selectedFile">
+    <span class="text-danger">Image obligatoire</span>
+    </div>
+</div>
+
+<div *ngIf="id"> <!-- En mode update -->
+  <label>Image (laisser vide si inchangée)</label>
+  <input type="file" class="form-control" (change)="onFileSelected($event)" />
+</div>
+
+
+    <!-- Allergènes -->
+    <label>Allergènes</label>
+    <input type="text" class="form-control" formControlName="allergenes" />
+
+    <!-- Catégorie -->
+    <label>Catégorie</label>
+    <select class="form-control" formControlName="id_categorie">
+    <option value="">-- Sélectionner une catégorie --</option>
+    <option *ngFor="let cat of categories" [value]="cat.id">
+        {{ cat.nom }} 
+    </option>
+    </select>
+    <div *ngIf="submitted && f['id_categorie'].errors">
+    <span class="text-danger">Catégorie obligatoire</span>
+    </div>
+
+    <!-- Boutons -->
+    <button class="btn btn-success mt-3" type="submit">
+      {{ id ? "Mettre à jour" : "Enregistrer" }}
+    </button>
+    <button class="btn btn-secondary mt-3 ms-2" routerLink="/produits" type="button">Annuler</button>
+  </form>
+</div>

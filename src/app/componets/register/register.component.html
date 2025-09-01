@@ -1,0 +1,15 @@
+<div class="container mt-5">
+  <h2>Créer un utilisateur</h2>
+  <form [formGroup]="form" (ngSubmit)="register()">
+    <input formControlName="nom" placeholder="Nom" class="form-control mb-2">
+    <input formControlName="prenom" placeholder="Prénom" class="form-control mb-2">
+    <input formControlName="email" type="email" placeholder="Email" class="form-control mb-2">
+    <input formControlName="telephone" placeholder="Téléphone" class="form-control mb-2">
+    <input formControlName="password" type="password" placeholder="Mot de passe" class="form-control mb-2">
+  
+    <button type="submit" class="btn btn-success w-100">Créer l’utilisateur</button>
+  </form>
+
+  <p class="text-success mt-2" *ngIf="success">{{ success }}</p>
+  <p class="text-danger mt-2" *ngIf="error">{{ error }}</p>
+</div>

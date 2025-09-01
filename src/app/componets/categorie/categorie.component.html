@@ -1,0 +1,18 @@
+<div class="container">
+  <button class="btn btn-success" routerLink="/addCategorie">Ajouter</button>
+  <table class="table mt-3">
+    <tr>
+      <th>Id</th>
+      <th>Nom</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngFor="let categorie of categories">
+      <td>{{ categorie.id }}</td>
+      <td>{{ categorie.nom }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteCategorie(categorie.id!)">Supprimer</button>
+        <button class="btn btn-primary" [routerLink]="['/updateCategorie', categorie.id]">Modifier</button>
+      </td>
+    </tr>
+  </table>
+</div>

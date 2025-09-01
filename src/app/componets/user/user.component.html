@@ -1,0 +1,6 @@
+<h2>Page de Connexion</h2>
+<form [formGroup]="form" (ngSubmit)="login()">
+<input formControlName="email" type="email" placeholder="Email">
+<input formControlName="password" type="password" placeholder="Mot de passe">
+<button type="submit">Se Connecter</button>
+</form>

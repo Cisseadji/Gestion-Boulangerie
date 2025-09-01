@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h2>{{ id ? "Modifier une commande" : "Passer une commande" }}</h2>
+
+  <form [formGroup]="commandeForm" (ngSubmit)="onSubmit()">
+
+    <!-- Total -->
+    <label>Total</label>
+    <input type="number" class="form-control" formControlName="total" />
+    <div *ngIf="submitted && f['total'].errors">
+      <span class="text-danger" *ngIf="f['total'].errors['required']">Total obligatoire</span>
+      <span class="text-danger" *ngIf="f['total'].errors['min']">Doit être > 0</span>
+    </div>
+
+    <!-- Mode Paiement -->
+    <label>Mode de paiement</label>
+    <select class="form-control" formControlName="mode_paiement">
+      <option value="EN_LIGNE">En ligne</option>
+      <option value="A_LA_LIVRAISON">À la livraison</option>
+    </select>
+
+    <!-- Date -->
+    <label>Date de commande</label>
+    <input type="datetime-local" class="form-control" formControlName="date_commande" />
+
+    <!-- Boutons -->
+    <button class="btn btn-success mt-3" type="submit">
+      {{ id ? "Mettre à jour" : "Enregistrer" }}
+    </button>
+    <button class="btn btn-secondary mt-3 ms-2" routerLink="/commandes" type="button">Annuler</button>
+  </form>
+</div>

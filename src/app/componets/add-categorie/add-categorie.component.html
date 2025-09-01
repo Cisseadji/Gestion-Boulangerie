@@ -1,0 +1,11 @@
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <label for="">Nom</label>
+  <input type="text" class="form-control" formControlName="nom">
+  <div *ngIf="submitted && f['nom'].errors">
+    <span class="text-danger" *ngIf="f['nom'].errors['required']">Nom est obligatoire</span>
+    <span class="text-danger" *ngIf="f['nom'].errors['minlength']">Min 3 caractères</span>
+  </div>
+
+
+  <button class="btn btn-primary mt-2" type="submit">{{ this.id ? 'Mettre à jour' : 'Enregistrer' }}</button>
+</form>

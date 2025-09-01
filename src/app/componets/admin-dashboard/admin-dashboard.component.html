@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isAuthenticated()">
+  <a class="navbar-brand" href="#">Admin</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLink="/admin/utilisateur">Utilisateurs</a>
+      <a class="nav-item nav-link" routerLink="/admin/produits">Produits</a>
+      <a class="nav-item nav-link" routerLink="/admin/commande">Commandes</a>
+      <a class="nav-item nav-link" routerLink="/admin/promotions">Promotions</a>
+      <a class="nav-item nav-link" routerLink="/admin/categories">Catégories</a>
+      <a class="nav-item nav-link" (click)="logOut()">Déconnexion</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3">
+  <router-outlet></router-outlet>
+</div>

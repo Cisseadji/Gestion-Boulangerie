@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isAuthenticated()">
+  <a class="navbar-brand" routerLink="/client/catalogue">Boulangerie</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLink="/client/catalogue">Catalogue</a>
+      <a class="nav-item nav-link" routerLink="/client/panier">Panier</a>
+      <a class="nav-item nav-link" routerLink="/client/commande">Commandes</a>
+      <a class="nav-item nav-link" routerLink="/client/livraisons">Livraisons</a>
+      <a class="nav-item nav-link" routerLink="/client/promotions">Promotions</a>
+      <a class="nav-item nav-link" routerLink="/client/support">Support</a>
+      <a class="nav-item nav-link" (click)="logOut()">Déconnexion</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3">
+  <router-outlet></router-outlet>
+</div>

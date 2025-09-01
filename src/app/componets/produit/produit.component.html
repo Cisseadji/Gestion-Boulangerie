@@ -1,0 +1,43 @@
+<div class="container">
+  <button class="btn btn-success" routerLink="/admin/addProduit">Ajouter</button>
+  <table class="table mt-3 table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Prix</th>
+        <th>Stock</th>
+        <th>Image</th>
+        <th>Allergènes</th>
+        <th>Catégorie</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let produit of produits">
+        <td>{{ produit.id }}</td>
+        <td>{{ produit.nom }}</td>
+        <td>{{ produit.description }}</td>
+        <td>{{ produit.prix }} €</td>
+        <td>{{ produit.stock }}</td>
+        <td>
+               <img *ngIf="produit.image_url"
+             [src]="'http://localhost:8000/storage/' + produit.image_url"
+             alt="Produit"
+             width="80" height="80">
+        </td>
+
+
+
+        <td>{{ produit.allergenes }}</td>
+        <td>{{ produit.id_categorie }}</td>
+        
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteProduit(produit.id!)">Supprimer</button>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/admin/updateProduit', produit.id]">Modifier</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

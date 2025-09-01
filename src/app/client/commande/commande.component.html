@@ -1,0 +1,54 @@
+<div class="container mt-4">
+  <h2>Liste des Commandes</h2>
+
+  <div *ngIf="loading" class="text-muted">Chargement des commandes...</div>
+
+  <table class="table table-bordered mt-2" *ngIf="!loading && commandes.length">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Total</th>
+        <th>Statut</th>
+        <th>Mode Paiement</th>
+        <th>Date</th>
+        <th *ngIf="role!=='CLIENT'">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let commande of commandes">
+        <td>{{ commande.id }}</td>
+        <td>{{commande.id_client }}</td>
+        <td>{{ commande.total | currency:'EUR' }}</td>
+
+        <!-- Statut -->
+        <td>
+          <span *ngIf="role==='CLIENT'">{{ commande.statut }}</span>
+
+          <select *ngIf="role==='EMPLOYE' || role==='ADMIN' || role==='GERANT'"
+                  [(ngModel)]="commande.statut"
+                  (change)="updateStatut(commande.id!, commande.statut)"
+                  [disabled]="commande.statut === 'LIVREE'">
+            <option value="EN_PREPARATION">En préparation</option>
+            <option value="PRETE">Prête</option>
+            <option value="EN_LIVRAISON">En livraison</option>
+            <option value="LIVREE">Livrée</option>
+          </select>
+        </td>
+
+        <td>{{ commande.mode_paiement }}</td>
+        <td>{{ commande.date_commande | date:'short' }}</td>
+
+        <!-- Actions (Admin/Gérant uniquement) -->
+        <td *ngIf="role==='ADMIN' || role==='GERANT'">
+          <button class="btn btn-danger btn-sm me-1" (click)="deleteCommande(commande.id!)">Supprimer</button>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/updateCommande', commande.id]">Modifier</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !commandes.length" class="text-muted">
+    Aucune commande à afficher.
+  </div>
+</div>
