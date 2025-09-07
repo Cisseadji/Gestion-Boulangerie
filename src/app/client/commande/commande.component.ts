@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Commande } from '../../models/commande';
 import { CommandeService } from '../../services/commande.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-commande',
@@ -15,7 +16,13 @@ export class CommandeComponent implements OnInit {
   userId!: number;
   loading: boolean = false;
 
-  constructor(private commandeService: CommandeService, private auth: AuthService) {}
+  selectedCommande!: Commande; // commande pour le modal
+
+  constructor(
+    private commandeService: CommandeService,
+    private auth: AuthService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.role = this.auth.getRole();
@@ -27,46 +34,56 @@ export class CommandeComponent implements OnInit {
     this.loading = true;
     this.commandeService.getAll().subscribe({
       next: (data) => {
-        // Filtrer selon rôle
         if (this.role === 'CLIENT') {
           this.commandes = data.filter(c => c.id_client === this.userId);
         } else if (this.role === 'EMPLOYE') {
-          // Employé : commandes en préparation ou prêtes uniquement
           this.commandes = data.filter(c => c.statut !== 'LIVREE');
         } else {
-          // Admin/Gérant : toutes les commandes
           this.commandes = data;
         }
         this.loading = false;
       },
-      error: (err) => {
-        console.error(err);
-        alert('Erreur lors du chargement des commandes.');
-        this.loading = false;
-      }
+      error: () => this.loading = false
     });
   }
 
-  updateStatut(id: number, statut: string) {
-    if (this.auth.isEmploye() || this.auth.isAdmin() || this.role === 'GERANT') {
-      this.commandeService.updateStatut(id, statut).subscribe({
+  // Vérifications rôle
+  isAdmin() {
+    return this.auth.isAdmin();
+  }
+
+  isEmploye() {
+    return this.auth.isEmploye();
+  }
+
+  isClient() {
+    return this.auth.isClient();
+  }
+
+  // Actions
+  changerStatut(commande: Commande) {
+    this.commandeService.updateStatut(commande.id, commande.statut).subscribe({
+      next: () => console.log('Statut mis à jour !'),
+      error: () => console.error('Erreur mise à jour statut')
+    });
+  }
+
+  modifierCommande(commande: Commande) {
+    console.log("Modifier commande :", commande);
+    // TODO : ouvrir un formulaire ou rediriger vers une page édition
+  }
+
+  supprimerCommande(id: number) {
+    if (confirm("Voulez-vous vraiment supprimer cette commande ?")) {
+      this.commandeService.deleteCommande(id).subscribe({
         next: () => this.loadCommandes(),
-        error: (err) => {
-          console.error(err);
-          alert('Impossible de mettre à jour le statut.');
-        }
+        error: () => console.error("Erreur suppression commande")
       });
     }
   }
 
-  deleteCommande(id: number) {
-    if (this.auth.isAdmin() || this.role === 'GERANT') {
-      if (confirm('Voulez-vous vraiment supprimer cette commande ?')) {
-        this.commandeService.deleteCommande(id).subscribe({
-          next: () => this.loadCommandes(),
-          error: (err) => console.error(err)
-        });
-      }
-    }
+  openDetailModal(modal: any, commande: Commande) {
+    this.selectedCommande = commande;
+    this.modalService.open(modal, { size: 'lg', scrollable: true });
   }
 }

@@ -1,0 +1,30 @@
+<div class="container mt-3">
+  <h2>Liste des factures</h2>
+  
+  <table class="table table-bordered mt-3">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Commande</th>
+        <th>Date</th>
+        <th>Montant</th>
+        <th>Client</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let facture of factures">
+        <td>{{ facture.id }}</td>
+        <td>{{ facture.id_commande }}</td>
+        <td>{{ facture.date_facture | date:'short' }}</td>
+        <td>{{ facture.montant_total | currency:'EUR' }}</td>
+        <td>{{ facture.client.nom }}</td>
+        <td>
+          <button class="btn btn-success btn-sm me-1" (click)="downloadPDF(facture.id)">PDF</button>
+          <button class="btn btn-primary btn-sm me-1" (click)="sendMail(facture.id)">Envoyer Mail</button>
+          <button *ngIf="isAdminOrEmploye()" class="btn btn-danger btn-sm" (click)="deleteFacture(facture.id)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

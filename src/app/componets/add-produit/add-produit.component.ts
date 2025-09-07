@@ -92,7 +92,7 @@ export class AddProduitComponent implements OnInit {
       this.produitService.updateProduit(formData, this.id).subscribe({
         next: () => {
           console.log('Produit mis à jour');
-          this.router.navigateByUrl('/produits');
+          this.router.navigateByUrl('/admin/produits');
         },
         error: (err) => console.error(err)
       });
@@ -101,7 +101,7 @@ export class AddProduitComponent implements OnInit {
       this.produitService.addProduit(formData).subscribe({
         next: () => {
           console.log('Produit ajouté');
-          this.router.navigateByUrl('/produits');
+          this.router.navigateByUrl('/admin/produits');
         },
         error: (err) => console.error(err)
       });

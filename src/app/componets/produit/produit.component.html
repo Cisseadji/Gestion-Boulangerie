@@ -1,43 +1,63 @@
-<div class="container">
-  <button class="btn btn-success" routerLink="/admin/addProduit">Ajouter</button>
-  <table class="table mt-3 table-bordered">
-    <thead class="table-light">
-      <tr>
-        <th>Id</th>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Prix</th>
-        <th>Stock</th>
-        <th>Image</th>
-        <th>Allergènes</th>
-        <th>Catégorie</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let produit of produits">
-        <td>{{ produit.id }}</td>
-        <td>{{ produit.nom }}</td>
-        <td>{{ produit.description }}</td>
-        <td>{{ produit.prix }} €</td>
-        <td>{{ produit.stock }}</td>
-        <td>
-               <img *ngIf="produit.image_url"
-             [src]="'http://localhost:8000/storage/' + produit.image_url"
-             alt="Produit"
-             width="80" height="80">
-        </td>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold text-primary">Gestion des Produits</h3>
+    <button class="btn btn-success" routerLink="/admin/addProduit">
+      <i class="fas fa-plus me-2"></i> Ajouter un produit
+    </button>
+  </div>
 
-
-
-        <td>{{ produit.allergenes }}</td>
-        <td>{{ produit.id_categorie }}</td>
-        
-        <td>
-          <button class="btn btn-danger btn-sm" (click)="deleteProduit(produit.id!)">Supprimer</button>
-          <button class="btn btn-primary btn-sm" [routerLink]="['/admin/updateProduit', produit.id]">Modifier</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover table-bordered align-middle">
+      <thead class="table-dark text-white">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Image</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Description</th>
+          <th scope="col">Prix</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Allergènes</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let produit of produits">
+          <td class="fw-bold">#{{ produit.id }}</td>
+          <td>
+            <img *ngIf="produit.image_url"
+                 [src]="'http://localhost:8000/storage/' + produit.image_url"
+                 alt="Produit"
+                 class="img-thumbnail rounded"
+                 width="70" height="70">
+          </td>
+          <td class="fw-semibold">{{ produit.nom }}</td>
+          <td>{{ produit.description }}</td>
+          <td class="text-success fw-bold">{{ produit.prix }} €</td>
+          <td>
+            <span class="badge"
+                  [ngClass]="{
+                    'bg-success': produit.stock > 10,
+                    'bg-warning text-dark': produit.stock <= 10 && produit.stock > 0,
+                    'bg-danger': produit.stock === 0
+                  }">
+              {{ produit.stock }}
+            </span>
+          </td>
+          <td>{{ produit.allergenes || '-' }}</td>
+          <td>{{ produit.id_categorie }}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-primary me-2"
+                    [routerLink]="['/admin/updateProduit', produit.id]">
+              <i class="fas fa-edit"></i> Modifier
+            </button>
+            <button class="btn btn-sm btn-danger"
+                    (click)="deleteProduit(produit.id!)">
+              <i class="fas fa-trash-alt"></i> Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

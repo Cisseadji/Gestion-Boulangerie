@@ -25,16 +25,30 @@ export class RegisterComponent  {
 
 
   register() {
-    if (this.form.invalid) return;
+  if (this.form.invalid) return;
 
-    this.authService.register(this.form.value).subscribe({
-      next: () => {
-        this.success = 'Utilisateur créé avec succès !';
-        setTimeout(() => this.router.navigate(['/admin/users']), 2000);
-      },
-      error: () => {
-        this.error = 'Erreur lors de la création utilisateur.';
+  this.authService.register(this.form.value).subscribe({
+    next: (res: any) => {
+      this.success = 'Utilisateur créé avec succès !';
+
+      // Sauvegarde du token + infos utilisateur
+      this.authService.saveToken(res.access_token);
+      localStorage.setItem('role', res.user.role);
+      localStorage.setItem('userId', res.user.id.toString());
+
+      // Redirection selon rôle
+      if (res.user.role === 'ADMIN') {
+        this.router.navigate(['/admin']);
+      } else if (res.user.role === 'EMPLOYE') {
+        this.router.navigate(['/employe']);
+      } else {
+        this.router.navigate(['/client']);
       }
-    });
-  }
+    },
+    error: () => {
+      this.error = 'Erreur lors de la création utilisateur.';
+    }
+  });
+}
+
 }

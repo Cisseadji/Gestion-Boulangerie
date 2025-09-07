@@ -18,33 +18,21 @@ export class CommandeService {
     return this.httpClient.get<Commande[]>(this.URL);
   }
 
-  // ✅ Ajouter une commande depuis le panier
-addCommandeFromCart(items: any[], mode_paiement: string = 'A_LA_LIVRAISON'): Observable<Commande> {
-  const data = {
-    produits: items.map(i => ({
-      id: i.produit.id,
-      quantite: i.quantity
-    })),
-    mode_paiement // "EN_LIGNE" ou "A_LA_LIVRAISON"
-  };
-  return this.httpClient.post<Commande>(this.URL, data);
-}
-
-
-
   // ✅ Récupérer une commande par ID
   getById(id: number): Observable<Commande> {
     return this.httpClient.get<Commande>(`${this.URL}/${id}`);
   }
 
-  // ✅ Ajouter une commande
+  // ✅ Ajouter une commande (depuis le formulaire)
   addCommande(commande: Commande): Observable<Commande> {
-    return this.httpClient.post<Commande>(this.URL, commande);
+    const data = this.prepareCommandeData(commande);
+    return this.httpClient.post<Commande>(this.URL, data);
   }
 
   // ✅ Mettre à jour une commande complète
   updateCommande(id: number, commande: Commande): Observable<any> {
-    return this.httpClient.put(`${this.URL}/${id}`, commande);
+    const data = this.prepareCommandeData(commande);
+    return this.httpClient.put(`${this.URL}/${id}`, data);
   }
 
   // ✅ Supprimer une commande
@@ -55,5 +43,47 @@ addCommandeFromCart(items: any[], mode_paiement: string = 'A_LA_LIVRAISON'): Obs
   // ✅ Mettre à jour uniquement le statut
   updateStatut(id: number, statut: string): Observable<any> {
     return this.httpClient.patch(`${this.URL}/${id}/statut`, { statut });
+  }
+
+  // ✅ Ajouter une commande depuis le panier
+  addCommandeFromCart(items: any[], mode_paiement: string = 'A_LA_LIVRAISON', adresse: string): Observable<Commande> {
+    const produits = items.map(i => ({
+      id: i.produit.id,
+      quantite: i.quantity,
+      prix_unitaire: i.produit.prix
+    }));
+    const total = produits.reduce((sum, p) => sum + (p.quantite * p.prix_unitaire), 0);
+
+    const data = {
+      id_client: this.auth.getUserId(),
+      produits,
+      total,
+      mode_paiement,
+      adresse,
+      date_commande: new Date().toISOString()
+    };
+
+    return this.httpClient.post<Commande>(this.URL, data);
+  }
+
+  // ✅ Préparer les données à envoyer au backend
+  private prepareCommandeData(commande: Commande) {
+    const produits = commande.produits.map(p => ({
+      id: p.id,
+      quantite: p.quantite,
+      prix_unitaire: p.prix_unitaire
+    }));
+
+    const total = produits.reduce((sum, p) => sum + (p.quantite * p.prix_unitaire), 0);
+
+    return {
+      id_client: commande.id_client,
+      produits,
+      total,
+      statut: commande.statut || 'EN_PREPARATION',
+      mode_paiement: commande.mode_paiement,
+      adresse: commande.adresse,
+      date_commande: commande.date_commande || new Date().toISOString()
+    };
   }
 }

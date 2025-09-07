@@ -3,12 +3,30 @@
 
   <form [formGroup]="commandeForm" (ngSubmit)="onSubmit()">
 
+    <!-- Produits -->
+    <div formArrayName="produits" class="mb-3">
+      <label>Produits</label>
+      <div *ngFor="let p of produits.controls; let i = index" [formGroupName]="i" class="mb-2 border p-2 rounded">
+        <div class="d-flex justify-content-between align-items-center">
+          <span>{{ p.get('nom')?.value }}</span>
+          <input type="number" class="form-control me-2" formControlName="quantite" placeholder="Quantité" min="1">
+          <input type="number" class="form-control" formControlName="prix_unitaire" placeholder="Prix unitaire" min="1">
+        </div>
+      </div>
+      <div *ngIf="submitted && f['produits'].errors" class="text-danger">
+        <span *ngIf="f['produits'].errors['required']">Veuillez sélectionner au moins un produit</span>
+      </div>
+    </div>
+
     <!-- Total -->
     <label>Total</label>
-    <input type="number" class="form-control" formControlName="total" />
-    <div *ngIf="submitted && f['total'].errors">
-      <span class="text-danger" *ngIf="f['total'].errors['required']">Total obligatoire</span>
-      <span class="text-danger" *ngIf="f['total'].errors['min']">Doit être > 0</span>
+    <input type="number" class="form-control" [value]="calculateTotal()" readonly />
+
+    <!-- Adresse -->
+    <label>Adresse de livraison</label>
+    <input type="text" class="form-control" formControlName="adresse" placeholder="Entrez votre adresse" />
+    <div *ngIf="submitted && f['adresse'].errors" class="text-danger">
+      <span *ngIf="f['adresse'].errors['required']">Adresse obligatoire</span>
     </div>
 
     <!-- Mode Paiement -->
@@ -26,6 +44,6 @@
     <button class="btn btn-success mt-3" type="submit">
       {{ id ? "Mettre à jour" : "Enregistrer" }}
     </button>
-    <button class="btn btn-secondary mt-3 ms-2" routerLink="/commandes" type="button">Annuler</button>
+    <button class="btn btn-secondary mt-3 ms-2" routerLink="/admin/commande" type="button">Annuler</button>
   </form>
 </div>

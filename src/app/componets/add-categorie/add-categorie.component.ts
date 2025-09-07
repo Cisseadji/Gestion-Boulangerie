@@ -49,12 +49,12 @@ export class AddCategorieComponent implements OnInit {
     if (this.categoryForm.valid) {
       if (this.id) {
         this.categorieService.updateCategorie(this.categoryForm.value, this.id).subscribe(
-          () => this.router.navigateByUrl('categories'),
+          () => this.router.navigateByUrl('/admin/categories'),
           (error) => console.log(error)
         );
       } else {
         this.categorieService.addCategorie(this.categoryForm.value).subscribe(
-          () => this.router.navigateByUrl('categories'),
+          () => this.router.navigateByUrl('/admin/categories'),
           (error) => console.log(error)
         );
       }

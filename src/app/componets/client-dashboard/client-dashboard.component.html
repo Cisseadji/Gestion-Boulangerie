@@ -1,22 +1,41 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isAuthenticated()">
-  <a class="navbar-brand" routerLink="/client/catalogue">Boulangerie</a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" routerLink="/client/catalogue">Catalogue</a>
-      <a class="nav-item nav-link" routerLink="/client/panier">Panier</a>
-      <a class="nav-item nav-link" routerLink="/client/commande">Commandes</a>
-      <a class="nav-item nav-link" routerLink="/client/livraisons">Livraisons</a>
-      <a class="nav-item nav-link" routerLink="/client/promotions">Promotions</a>
-      <a class="nav-item nav-link" routerLink="/client/support">Support</a>
-      <a class="nav-item nav-link" (click)="logOut()">Déconnexion</a>
+<!-- Navigation Client -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm" *ngIf="isAuthenticated()">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" routerLink="/client/catalogue">
+      <i class="fas fa-bread-slice me-2"></i>Boulangerie
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavClient"
+      aria-controls="navbarNavClient" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavClient">
+      <div class="navbar-nav me-auto">
+        <a class="nav-link" routerLink="/client/catalogue" routerLinkActive="active">
+          <i class="fas fa-store me-1"></i>Catalogue
+        </a>
+        <a class="nav-link" routerLink="/client/panier" routerLinkActive="active">
+          <i class="fas fa-shopping-cart me-1"></i>Panier
+        </a>
+        <a class="nav-link" routerLink="/client/commande" routerLinkActive="active">
+          <i class="fas fa-clipboard-list me-1"></i>Commandes
+        </a>
+        <a class="nav-link" routerLink="/client/livraisons" routerLinkActive="active">
+          <i class="fas fa-truck me-1"></i>Livraisons
+        </a>
+        <a class="nav-link" routerLink="/client/support" routerLinkActive="active">
+          <i class="fas fa-headset me-1"></i>Support
+        </a>
+      </div>
+      <div class="navbar-nav">
+        <a class="nav-link text-light" (click)="logOut()" style="cursor: pointer;">
+          <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
+        </a>
+      </div>
     </div>
   </div>
 </nav>
 
-<div class="container mt-3">
+<!-- Router Outlet Client -->
+<div class="container-fluid mt-3">
   <router-outlet></router-outlet>
 </div>

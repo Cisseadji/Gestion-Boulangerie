@@ -1,5 +1,5 @@
 <div class="container">
-  <button class="btn btn-success" routerLink="/addCategorie">Ajouter</button>
+  <button class="btn btn-success" routerLink="/admin/addCategorie">Ajouter</button>
   <table class="table mt-3">
     <tr>
       <th>Id</th>
@@ -11,7 +11,7 @@
       <td>{{ categorie.nom }}</td>
       <td>
         <button class="btn btn-danger" (click)="deleteCategorie(categorie.id!)">Supprimer</button>
-        <button class="btn btn-primary" [routerLink]="['/updateCategorie', categorie.id]">Modifier</button>
+        <button class="btn btn-primary" [routerLink]="['/admin/updateCategorie', categorie.id]">Modifier</button>
       </td>
     </tr>
   </table>

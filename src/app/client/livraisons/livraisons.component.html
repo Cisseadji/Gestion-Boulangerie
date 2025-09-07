@@ -1,66 +1,48 @@
-<!-- livraisons.component.html -->
 <div class="container mt-4">
-  <h2>Livraisons</h2>
 
-  <table class="table table-bordered" *ngIf="commandes.length; else vide">
-    <thead>
+  
+
+  <div *ngIf="loading" class="alert alert-info">Chargement...</div>
+  <div *ngIf="successMsg" class="alert alert-success">{{ successMsg }}</div>
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+   <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Liste des livraisons</h3>
+   <button class="btn btn-success" routerLink="/employe/addLivraison">
+      <i class="fas fa-plus me-2"></i> Ajouter un livraison
+    </button>
+    </div>
+
+  <table class="table table-bordered table-striped" *ngIf="livraisons.length > 0">
+    <thead class="table-dark">
       <tr>
         <th>ID</th>
-        <th *ngIf="role !== 'CLIENT'">Client</th>
-        <th>Produits</th>
-        <th>Quantité</th>
+        <th>Commande</th>
+        <th>Adresse</th>
+        <th>Date prévue</th>
         <th>Statut</th>
-        <th>Date</th>
-        <th *ngIf="role === 'EMPLOYE' || role === 'ADMIN' || role === 'GERANT'">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let commande of commandes">
-        <td>{{ commande.id }}</td>
-        <td *ngIf="role !== 'CLIENT'">{{ commande.id_client }}</td>
+      <tr *ngFor="let livraison of livraisons">
+        <td>{{ livraison.id }}</td>
+        <td>{{ livraison.id_commande }}</td>
+        <td>{{ livraison.adresse }}</td>
+        <td>{{ livraison.date_prevue | date:'short' }}</td>
         <td>
-          <ul>
-            <li *ngFor="let p of commande.produits">{{ p.nom }}</li>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <li *ngFor="let p of commande.produits">{{ p.pivot.quantite }}</li>
-          </ul>
-        </td>
-
-        <td>
-          <span *ngIf="role === 'CLIENT'">{{ commande.statut }}</span>
-
-          <select *ngIf="role === 'EMPLOYE' || role === 'ADMIN' || role === 'GERANT'"
-                  [(ngModel)]="commande.statut"
-                  (change)="updateStatut(commande.id!, commande.statut)">
-            <option value="EN_PREPARATION">En préparation</option>
-            <option value="PRETE">Prête</option>
-            <option value="EN_LIVRAISON">En livraison</option>
+          <select [(ngModel)]="livraison.statut"
+                  (change)="updateStatut(livraison, livraison.statut)"
+                  class="form-select form-select-sm">
+            <option value="EN_COURS">En cours</option>
             <option value="LIVREE">Livrée</option>
+            <option value="ANNULEE">Annulée</option>
           </select>
-        </td>
-
-        <td>{{ commande.date_commande | date:'short' }}</td>
-
-        <td *ngIf="role === 'EMPLOYE' || role === 'ADMIN' || role === 'GERANT'">
-          <button class="btn btn-primary btn-sm" 
-                  *ngIf="commande.statut === 'PRETE'" 
-                  (click)="updateStatut(commande.id!, 'EN_LIVRAISON')">
-            Mettre en livraison
-          </button>
-          <button class="btn btn-success btn-sm" 
-                  *ngIf="commande.statut === 'EN_LIVRAISON'" 
-                  (click)="updateStatut(commande.id!, 'LIVREE')">
-            Livrée
-          </button>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <ng-template #vide>
-    <p class="text-muted">Aucune commande à afficher.</p>
-  </ng-template>
+  <p *ngIf="!loading && livraisons.length === 0" class="text-muted">
+    Aucune livraison trouvée.
+  </p>
+
 </div>

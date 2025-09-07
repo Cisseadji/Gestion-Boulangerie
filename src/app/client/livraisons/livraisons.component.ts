@@ -1,8 +1,6 @@
-// livraisons.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommandeService } from '../../services/commande.service';
-import { AuthService } from '../../services/auth.service';
-import { Commande } from '../../models/commande';
+import { Livraison } from '../../models/livraison';
+import { LivraisonService } from '../../services/livraison.service';
 
 @Component({
   selector: 'app-livraisons',
@@ -10,38 +8,45 @@ import { Commande } from '../../models/commande';
   styleUrls: ['./livraisons.component.css']
 })
 export class LivraisonsComponent implements OnInit {
+  livraisons: Livraison[] = [];
+  loading = false;
+  errorMsg = '';
+  successMsg = '';
 
-  commandes: Commande[] = [];
-  role!: string;
-  userId!: number;
+  constructor(private livraisonService: LivraisonService) {}
 
-  constructor(private commandeService: CommandeService, private auth: AuthService) {}
-
-  ngOnInit(): void {
-    this.role = this.auth.getRole();
-    this.userId = this.auth.getUserId();
-    this.loadCommandes();
+  ngOnInit() {
+    this.loadLivraisons();
   }
 
-  loadCommandes() {
-    this.commandeService.getAll().subscribe(data => {
-      if (this.role === 'CLIENT') {
-        this.commandes = data.filter(c => 
-          c.id_client === this.userId && 
-          (c.statut === 'EN_LIVRAISON' || c.statut === 'LIVREE')
-        );
-      } else if (this.role === 'EMPLOYE') {
-        this.commandes = data.filter(c => c.statut === 'PRETE' || c.statut === 'EN_LIVRAISON');
-      } else {
-        // ADMIN / GERANT : toutes les commandes
-        this.commandes = data;
+  // Charger toutes les livraisons
+  loadLivraisons() {
+    this.loading = true;
+    this.livraisonService.getAll().subscribe({
+      next: (data) => {
+        this.livraisons = data;
+        this.loading = false;
+      },
+      error: () => {
+        this.errorMsg = 'Erreur lors du chargement des livraisons';
+        this.loading = false;
       }
     });
   }
 
-  updateStatut(id: number, statut: string) {
-    if (this.role === 'EMPLOYE' || this.role === 'ADMIN' || this.role === 'GERANT') {
-      this.commandeService.updateStatut(id, statut).subscribe(() => this.loadCommandes());
-    }
+  // Mettre à jour le statut d'une livraison
+  updateStatut(livraison: Livraison, statut: Livraison['statut']) {
+    this.livraisonService.updateStatut(livraison.id, statut).subscribe({
+      next: () => {
+        livraison.statut = statut;
+        this.successMsg = `Statut de la livraison #${livraison.id} mis à jour ✅`;
+        this.errorMsg = '';
+        this.livraisonService.notifyStatutChange(livraison);
+      },
+      error: () => {
+        this.errorMsg = `Erreur lors de la mise à jour du statut de la livraison #${livraison.id}`;
+        this.successMsg = '';
+      }
+    });
   }
 }

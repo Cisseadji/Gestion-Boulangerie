@@ -25,18 +25,24 @@ import { CommandeComponent } from './client/commande/commande.component';
 import { LivraisonsComponent } from './client/livraisons/livraisons.component';
 import { PromotionsComponent } from './client/promotions/promotions.component';
 import { SupportComponent } from './client/support/support.component';
+import { FactureComponent } from './client/facture/facture.component';
+import { AddLivraisonComponent } from './client/add-livraison/add-livraison.component';
+import { AdminLayoutComponent } from './componets/admin-layout/admin-layout.component';
+import { LivraisonsClientComponent } from './client/livraisons-client/livraisons-client.component';
 
 const routes: Routes = [
   // Pages publiques
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserComponent },
   { path: 'register', component: RegisterComponent },
+ 
 
   // Dashboard Admin avec enfants
   { 
-    path: 'admin', 
-    component: AdminDashboardComponent,
+     path: 'admin',
+    component: AdminLayoutComponent,
     children: [
+      { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'commande', component: CommandeComponent },
       { path: 'categories', component: CategorieComponent },
       { path: 'addCategorie', component: AddCategorieComponent },
@@ -48,8 +54,8 @@ const routes: Routes = [
       { path: 'addUser', component: AddUtilisateurComponent },
       { path: 'updateUser/:id', component: AddUtilisateurComponent },
       { path: 'promotions', component: PromotionsComponent },
-      // Redirection par défaut vers produits
-      { path: '', redirectTo: 'produits', pathMatch: 'full' }
+      { path: 'facture', component: FactureComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
 
@@ -61,7 +67,7 @@ const routes: Routes = [
       { path: 'catalogue', component: CatalogueComponent },
       { path: 'panier', component: PanierComponent },
       { path: 'commande', component: CommandeComponent },
-      { path: 'livraisons', component: LivraisonsComponent },
+      { path: 'livraisons', component: LivraisonsClientComponent },
       { path: 'promotions', component: PromotionsComponent },
       { path: 'support', component: SupportComponent },
       // Redirection par défaut vers catalogue
@@ -76,6 +82,7 @@ const routes: Routes = [
     { path: 'commande', component: CommandeComponent },
     { path: 'livraisons', component: LivraisonsComponent },
     { path: 'support', component: SupportComponent },
+    { path: 'addLivraison', component: AddLivraisonComponent },
     { path: '', redirectTo: 'commande', pathMatch: 'full' }
   ]
 },

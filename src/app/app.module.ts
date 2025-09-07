@@ -21,10 +21,17 @@ import { AddUtilisateurComponent } from './componets/add-utilisateur/add-utilisa
 import { CommandeComponent } from './client/commande/commande.component';
 import { AddCommandeComponent } from './client/add-commande/add-commande.component';
 import { CatalogueComponent } from './client/catalogue/catalogue.component';
-import { LivraisonsComponent } from './client/livraisons/livraisons.component';
 import { PromotionsComponent } from './client/promotions/promotions.component';
 import { SupportComponent } from './client/support/support.component';
 import { PanierComponent } from './client/panier/panier.component';
+import { LivraisonsComponent } from './client/livraisons/livraisons.component';
+import { FactureComponent } from './client/facture/facture.component';
+import { AddLivraisonComponent } from './client/add-livraison/add-livraison.component';
+import { AdminLayoutComponent } from './componets/admin-layout/admin-layout.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LivraisonsClientComponent } from './client/livraisons-client/livraisons-client.component';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -49,6 +56,10 @@ import { PanierComponent } from './client/panier/panier.component';
     SupportComponent,
     PanierComponent,
     CommandeComponent,
+    FactureComponent,
+    AddLivraisonComponent,
+    AdminLayoutComponent,
+    LivraisonsClientComponent,
     
  
   ],
@@ -59,6 +70,12 @@ import { PanierComponent } from './client/panier/panier.component';
     ReactiveFormsModule ,
     RouterOutlet,
     FormsModule,
+    NgbModule,
+    ToastrModule.forRoot(),
+    BrowserModule
+   
+
+   
 
     
     

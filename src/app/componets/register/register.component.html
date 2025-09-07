@@ -1,15 +1,35 @@
-<div class="container mt-5">
-  <h2>Créer un utilisateur</h2>
-  <form [formGroup]="form" (ngSubmit)="register()">
-    <input formControlName="nom" placeholder="Nom" class="form-control mb-2">
-    <input formControlName="prenom" placeholder="Prénom" class="form-control mb-2">
-    <input formControlName="email" type="email" placeholder="Email" class="form-control mb-2">
-    <input formControlName="telephone" placeholder="Téléphone" class="form-control mb-2">
-    <input formControlName="password" type="password" placeholder="Mot de passe" class="form-control mb-2">
-  
-    <button type="submit" class="btn btn-success w-100">Créer l’utilisateur</button>
-  </form>
+<div class="container mt-5" style="max-width: 500px;">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Créer un utilisateur</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="register()">
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom</label>
+          <input formControlName="nom" id="nom" placeholder="Nom" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="prenom" class="form-label">Prénom</label>
+          <input formControlName="prenom" id="prenom" placeholder="Prénom" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input formControlName="email" id="email" type="email" placeholder="Email" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="telephone" class="form-label">Téléphone</label>
+          <input formControlName="telephone" id="telephone" placeholder="Téléphone" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input formControlName="password" id="password" type="password" placeholder="Mot de passe" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success w-100">Créer l’utilisateur</button>
+      </form>
 
-  <p class="text-success mt-2" *ngIf="success">{{ success }}</p>
-  <p class="text-danger mt-2" *ngIf="error">{{ error }}</p>
+      <p class="text-success mt-3" *ngIf="success">{{ success }}</p>
+      <p class="text-danger mt-3" *ngIf="error">{{ error }}</p>
+    </div>
+  </div>
 </div>

@@ -1,3 +1,52 @@
+<!-- Promotions -->
+<div class="container mt-4" *ngIf="promotions.length > 0">
+  <h2 class="mb-3">Promotions du moment</h2>
+
+  <div class="row g-4">
+    <div class="col-md-4" *ngFor="let promo of promotions">
+      <div class="card shadow-sm h-100 border-0 p-3">
+        <div class="mb-2 d-flex justify-content-between align-items-center">
+          <h5><i class="bi bi-tag-fill text-warning"></i> {{ promo.titre }}</h5>
+          <span class="badge bg-danger">-{{ promo.pourcentage_remise }}%</span>
+        </div>
+
+        <!-- Produits de la promotion -->
+        <div class="row g-3">
+          <div class="col-12" *ngFor="let prod of promo.produits">
+            <div class="card h-100 border shadow-sm p-2 d-flex flex-column">
+              <img
+                [src]="'http://localhost:8000/storage/' + prod.image_url"
+                class="card-img-top mb-2"
+                [alt]="prod.nom"
+                style="height:150px; object-fit:cover;"
+              />
+              <h6 class="fw-bold mb-1">{{ prod.nom }}</h6>
+              <div class="mb-2">
+                <span class="text-muted text-decoration-line-through me-2">
+                  {{ prod.prix | currency:'EUR' }}
+                </span>
+                <span class="fw-bold text-danger">
+                  {{ (prod.prix * (1 - promo.pourcentage_remise / 100)) | currency:'EUR' }}
+                </span>
+              </div>
+              <button
+                class="btn btn-warning mt-auto"
+                (click)="ajouterpanier(prod)">
+                Ajouter au panier
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h3 class="fw-bold">Notre Catalogue</h3>
   <select class="form-select" style="max-width: 220px" [(ngModel)]="category">
@@ -5,6 +54,7 @@
     <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
   </select>
 </div>
+
 
 <div class="row g-4">
   <div
@@ -39,11 +89,16 @@
         </div>
 
         <!-- Stock -->
-        <div class="mb-2">
-          <span class="badge bg-success" *ngIf="p.stock > 10">En stock</span>
-          <span class="badge bg-warning text-dark" *ngIf="p.stock <= 10 && p.stock > 0">Stock limité</span>
-          <span class="badge bg-secondary" *ngIf="p.stock === 0">Rupture</span>
-        </div>
+        <!-- Stock -->
+<div class="mb-2">
+  <span class="badge" 
+        [ngClass]="p.stock > 0 ? 'bg-success' : 'bg-secondary'">
+    {{ p.stock > 0 ? 'En stock' : 'Rupture' }}
+  </span>
+</div>
+
+
+
 
         <!-- Allergènes -->
         <div class="mb-2" *ngIf="p.allergenes && p.allergenes.length">
@@ -55,10 +110,15 @@
             {{ a }}
           </span>
         </div>
+<!-- Bouton Ajouter au panier -->
+<button 
+  class="btn btn-warning mt-auto" 
+  (click)="ajouterpanier(p)"
+  [disabled]="p.stock === 0">
+  {{ p.stock > 0 ? 'Ajouter au panier' : 'Rupture de stock' }}
+</button>
+        
 
-        <button class="btn btn-warning mt-auto" (click)="ajouterpanier(p)">
-          Ajouter au panier
-        </button>
       </div>
     </div>
   </div>

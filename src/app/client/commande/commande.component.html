@@ -1,54 +1,103 @@
+<!-- Liste des commandes -->
 <div class="container mt-4">
-  <h2>Liste des Commandes</h2>
+  <div class="card shadow-sm">
+    <div class="">
+      <h5 class="mb-0">Liste des commandes</h5>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover table-striped align-middle mb-0" *ngIf="!loading && commandes.length">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Total</th>
+            <th>Statut</th>
+            <th>Mode Paiement</th>
+            <th>Adresse</th>
+            <th>Date</th>
+            <th class="text-center">Détails</th>
+            <th *ngIf="isAdmin()" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let commande of commandes">
+            <td class="fw-bold">#{{ commande.id }}</td>
+            <td>{{ commande.id_client }}</td>
+            <td class="text-success fw-semibold">{{ commande.total | currency:'EUR' }}</td>
+            <td>
+              <!-- Admin ou Employé : select -->
+              <ng-container *ngIf="isAdmin() || isEmploye(); else statutView">
+                <select class="form-select form-select-sm"
+                        [(ngModel)]="commande.statut"
+                        (change)="changerStatut(commande)">
+                  <option value="EN_PREPARATION">EN_PREPARATION</option>
+                  <option value="PRETE">PRETE</option>
+                  <option value="EN_LIVRAISON">EN_LIVRAISON</option>
+                  <option value="LIVREE">LIVREE</option>
+                </select>
+              </ng-container>
 
-  <div *ngIf="loading" class="text-muted">Chargement des commandes...</div>
-
-  <table class="table table-bordered mt-2" *ngIf="!loading && commandes.length">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Client</th>
-        <th>Total</th>
-        <th>Statut</th>
-        <th>Mode Paiement</th>
-        <th>Date</th>
-        <th *ngIf="role!=='CLIENT'">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let commande of commandes">
-        <td>{{ commande.id }}</td>
-        <td>{{commande.id_client }}</td>
-        <td>{{ commande.total | currency:'EUR' }}</td>
-
-        <!-- Statut -->
-        <td>
-          <span *ngIf="role==='CLIENT'">{{ commande.statut }}</span>
-
-          <select *ngIf="role==='EMPLOYE' || role==='ADMIN' || role==='GERANT'"
-                  [(ngModel)]="commande.statut"
-                  (change)="updateStatut(commande.id!, commande.statut)"
-                  [disabled]="commande.statut === 'LIVREE'">
-            <option value="EN_PREPARATION">En préparation</option>
-            <option value="PRETE">Prête</option>
-            <option value="EN_LIVRAISON">En livraison</option>
-            <option value="LIVREE">Livrée</option>
-          </select>
-        </td>
-
-        <td>{{ commande.mode_paiement }}</td>
-        <td>{{ commande.date_commande | date:'short' }}</td>
-
-        <!-- Actions (Admin/Gérant uniquement) -->
-        <td *ngIf="role==='ADMIN' || role==='GERANT'">
-          <button class="btn btn-danger btn-sm me-1" (click)="deleteCommande(commande.id!)">Supprimer</button>
-          <button class="btn btn-primary btn-sm" [routerLink]="['/updateCommande', commande.id]">Modifier</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="!loading && !commandes.length" class="text-muted">
-    Aucune commande à afficher.
+              <!-- Vue simple pour Client -->
+              <ng-template #statutView>
+                <span class="badge" 
+                  [ngClass]="{
+                    'bg-warning text-dark': commande.statut === 'EN_PREPARATION',
+                    'bg-info text-dark': commande.statut === 'PRETE',
+                    'bg-primary': commande.statut === 'EN_LIVRAISON',
+                    'bg-success': commande.statut === 'LIVREE'
+                  }">
+                  {{ commande.statut }}
+                </span>
+              </ng-template>
+            </td>
+            <td>{{ commande.mode_paiement }}</td>
+            <td>{{ commande.adresse }}</td>
+            <td>{{ commande.date_commande | date:'short' }}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-info" (click)="openDetailModal(detailModal, commande)">
+                <i class="bi bi-eye"></i> Voir
+              </button>
+            </td>
+            <!-- Actions Admin -->
+            <td *ngIf="isAdmin()" class="text-center">
+              <button class="btn btn-sm btn-outline-warning me-2" (click)="modifierCommande(commande)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="supprimerCommande(commande.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-center p-3 text-muted" *ngIf="!loading && !commandes.length">
+        <i class="bi bi-inbox"></i> Aucune commande trouvée
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Modal avec ng-template -->
+<ng-template #detailModal let-modal>
+  <div class="modal-header bg-light">
+    <h5 class="modal-title fw-bold">Détails Commande #{{ selectedCommande.id }}</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row g-3">
+      <div class="col-md-4" *ngFor="let item of selectedCommande.produits">
+        <div class="card h-100 shadow-sm border rounded p-3 d-flex flex-column">
+          <h6 class="fw-bold text-primary mb-2">{{ item.nom }}</h6>
+          <p class="mb-1"><strong>Quantité :</strong> {{ item.quantite }}</p>
+          <p class="mb-1"><strong>Prix unitaire :</strong> {{ item.prix_unitaire | currency:'EUR' }}</p>
+          <p class="fw-bold text-success mt-auto">
+            Total : {{ item.prix_unitaire * item.quantite | currency:'EUR' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Fermer</button>
+  </div>
+</ng-template>

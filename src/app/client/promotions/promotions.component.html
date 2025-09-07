@@ -1,1 +1,137 @@
-<p>promotions works!</p>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="bi bi-percent"></i> Gestion des Promotions</h2>
+    <button class="btn btn-warning shadow-sm" (click)="openForm()">
+      <i class="bi bi-plus-circle"></i> Nouvelle promotion
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let promo of promotions">
+      <div class="card shadow border-0 h-100">
+        <div class="card-body">
+
+          <!-- Titre et badges -->
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="fw-bold text-dark">
+              <i class="bi bi-tag-fill text-warning me-2"></i>{{ promo.titre }}
+            </h5>
+            <div>
+              <span class="badge rounded-pill bg-danger me-2">
+                -{{ promo.pourcentage_remise }}%
+              </span>
+              <span class="badge rounded-pill" 
+                    [ngClass]="promo.actif ? 'bg-success' : 'bg-secondary'">
+                {{ promo.actif ? 'Active' : 'Inactive' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <p class="text-muted small">{{ promo.description }}</p>
+
+          <!-- Dates -->
+          <p class="mb-2">
+            <i class="bi bi-calendar-event me-1 text-primary"></i>
+            <span class="fw-semibold">Du</span> {{ promo.date_debut | date:'dd/MM/yyyy' }}
+            <span class="fw-semibold">au</span> {{ promo.date_fin | date:'dd/MM/yyyy' }}
+          </p>
+
+          <!-- Produits -->
+          <div class="mb-2">
+            <strong>Produits concernés ({{ promo.produits.length }})</strong>
+            <div class="mt-1">
+              <span *ngFor="let prod of promo.produits" 
+                    class="badge bg-light text-dark border me-1 mb-1">
+                <i class="bi bi-box-seam me-1"></i>{{ prod.nom }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-3 d-flex justify-content-end gap-2">
+            <button class="btn btn-outline-primary btn-sm" (click)="openForm(promo)">
+              <i class="bi bi-pencil"></i> Modifier
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="deletePromotion(promo.id)">
+              <i class="bi bi-trash"></i> Supprimer
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal formulaire -->
+<div class="modal" id="promoModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <form [formGroup]="promoForm" (ngSubmit)="onSubmit()">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-percent me-2"></i>{{ editingId ? 'Modifier' : 'Créer' }} une promotion
+          </h5>
+          <button type="button" class="btn-close" (click)="closeForm()"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Nom de la promotion *</label>
+              <input type="text" formControlName="titre" class="form-control shadow-sm">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Réduction (%) *</label>
+              <input type="number" formControlName="pourcentage_remise" class="form-control shadow-sm">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Date de début *</label>
+              <input type="date" formControlName="date_debut" class="form-control shadow-sm">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Date de fin *</label>
+              <input type="date" formControlName="date_fin" class="form-control shadow-sm">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea formControlName="description" rows="2" class="form-control shadow-sm"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Produits concernés</label>
+            <div class="row">
+              <div class="col-md-6" *ngFor="let prod of produits">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input"
+                        [value]="prod.id"
+                        (change)="onProductToggle(prod.id, $event)"
+                        [checked]="promoForm.value.produits.includes(prod.id)">
+                  <label class="form-check-label">{{ prod.nom }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" formControlName="actif">
+            <label class="form-check-label">Promotion active</label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success shadow-sm">
+            {{ editingId ? 'Enregistrer' : 'Créer' }}
+          </button>
+          <button type="button" class="btn btn-secondary shadow-sm" (click)="closeForm()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

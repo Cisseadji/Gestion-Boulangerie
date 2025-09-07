@@ -1,32 +1,53 @@
-<div class="container">
-  <button class="btn btn-success" routerLink="/admin/addUser">Ajouter</button>
-  <table class="table mt-3 table-bordered">
-    <thead class="table-light">
-      <tr>
-        <th>Id</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Email</th>
-        <th>Téléphone</th>
-        <th>Rôle</th>
-        <th>Actif</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.id }}</td>
-        <td>{{ user.nom }}</td>
-        <td>{{ user.prenom }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.telephone }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.actif ? 'Oui' : 'Non' }}</td>
-        <td>
-          <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id!)">Supprimer</button>
-          <button class="btn btn-primary btn-sm" [routerLink]="['/admin/updateUser', user.id]">Modifier</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold"><i class="fas fa-users me-2"></i> Gestion des utilisateurs</h3>
+    <button class="btn btn-success" routerLink="/admin/addUser">
+      <i class="fas fa-user-plus me-1"></i> Ajouter
+    </button>
+  </div>
+
+  <div class="card shadow-sm border-0 rounded">
+    <div class="card-body p-0">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-primary">
+          <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Rôle</th>
+            <th>Actif</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td class="fw-bold">{{ user.id }}</td>
+            <td>{{ user.nom }}</td>
+            <td>{{ user.prenom }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.telephone }}</td>
+            <td>
+              <span class="badge bg-info text-dark" *ngIf="user.role === 'CLIENT'">Client</span>
+              <span class="badge bg-warning text-dark" *ngIf="user.role === 'EMPLOYE'">Employé</span>
+              <span class="badge bg-danger" *ngIf="user.role === 'ADMIN'">Admin</span>
+            </td>
+            <td>
+              <span class="badge bg-success" *ngIf="user.actif">Oui</span>
+              <span class="badge bg-secondary" *ngIf="!user.actif">Non</span>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-primary me-2" [routerLink]="['/admin/updateUser', user.id]">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id!)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
