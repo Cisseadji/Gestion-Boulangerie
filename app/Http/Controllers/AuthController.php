@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserRequest;
+use App\Services\AuthService;
+use App\services\UserService;
+use Illuminate\Http\Request;
+
+class AuthController extends Controller
+{
+    protected $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $result = $this->authService->register($request->validated());
+        return response()->json($result, 201);
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $result = $this->authService->login($request->validated());
+
+        if ($result === 'not_found') {
+            return response()->json(['message' => 'Aucun compte associé à cet email'], 404);
+        }
+
+        if ($result === 'wrong_password') {
+            return response()->json(['message' => 'Mot de passe incorrect'], 401);
+        }
+
+        if ($result === 'inactive') {
+            return response()->json(['message' => 'Compte désactivé'], 403);
+        }
+
+        return response()->json($result, 200);
+    }
+
+
+    public function logout(Request $request)
+    {
+        $this->authService->logout($request->user());
+        return response()->json(['message' => 'Déconnecté avec succès']);
+    }
+
+    protected $userService;
+
+    /**
+     * AuthControlleur constructor.
+     * @param $userService
+     */
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+
+
+
+
+}
