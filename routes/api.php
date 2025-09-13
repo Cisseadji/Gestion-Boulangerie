@@ -46,6 +46,7 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::post('/livraison/from-commande', [LivraisonController::class, 'storeFromCommande']);
+Route::get('/livraison/client/{client}', [LivraisonController::class, 'getByClient']);
 
 Route::prefix('dashboard')->group(function () {
     Route::get('/stats', [DashboardController::class, 'getStats']);

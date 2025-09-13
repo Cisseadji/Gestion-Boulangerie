@@ -103,6 +103,15 @@ class LivraisonController extends Controller
     }
 
 
+    public function getByClient($clientId)
+    {
+        $livraisons = Livraison::where('id_client', $clientId)->get();
+        return response()->json($livraisons);
+    }
+
+
+
+
 
 
 

@@ -20,8 +20,15 @@ class LivraisonService
      */
     public function store(array $data)
     {
+        if (!isset($data['id_client']) && isset($data['id_commande'])) {
+            $commande = Commande::findOrFail($data['id_commande']);
+            $data['id_client'] = $commande->id_client; // ⚡ utiliser le client de la commande
+        }
+
         return Livraison::create($data);
     }
+
+
 
 
     public function createFromCommande(array $data)
@@ -35,10 +42,12 @@ class LivraisonService
         // Créer la livraison
         $livraison = Livraison::create([
             'id_commande' => $commande->id,
-            'adresse' => $commande->adresse,
-            'date_prevue' => now()->addDays(2),  // date prévue automatique
-            'statut' => 'EN_COURS'
+            'id_client'   => $commande->id_client, // ⚡ ajouter ici
+            'adresse'     => $commande->adresse,
+            'date_prevue' => now()->addDays(2),
+            'statut'      => 'EN_COURS'
         ]);
+
 
         // Mettre à jour le statut de la commande
         $commande->statut = 'EN_LIVRAISON';
