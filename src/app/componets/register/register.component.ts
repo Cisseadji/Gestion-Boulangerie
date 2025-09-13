@@ -51,4 +51,9 @@ export class RegisterComponent  {
   });
 }
 
+goToLogin(){
+  // Redirige simplement vers la page d'inscription
+  this.router.navigate(['/login']);
+}
+
 }

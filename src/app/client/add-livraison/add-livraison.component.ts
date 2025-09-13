@@ -63,21 +63,26 @@ creerLivraison(cmd: Commande) {
 
   const data: Partial<Livraison> = {
     id_commande: cmd.id,
+    id_client: cmd.id_client,  // ⚡ ajouter ici
     adresse: cmd.adresse,
     statut: statutLivraison,
-    date_prevue: datePrevue.toISOString()  // format compatible avec Laravel
+    date_prevue: datePrevue.toISOString()
   };
 
   this.livraisonService.store(data).subscribe({
     next: () => {
       this.successMsg = `✅ Livraison créée automatiquement pour la commande #${cmd.id}`;
-      this.loadCommandesPretes();  // Mettre à jour les commandes PRETE
-      this.loadLivraisons();       // Mettre à jour la liste des livraisons
+      this.livraisons.push(data as Livraison); // Optionnel, pour mettre à jour la liste
+      // Retirer la commande de la liste pour masquer le bouton
+      this.commandesPretes = this.commandesPretes.filter(c => c.id !== cmd.id);
     },
     error: () => {
       this.errorMsg = `❌ Erreur lors de la création de la livraison pour la commande #${cmd.id}`;
     }
   });
+
+
+
 }
 
 }

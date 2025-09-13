@@ -1,0 +1,66 @@
+/* Body général panier */
+body, .panier-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #FFF8DC, #F5DEB3, #FFD700, #D2691E);
+  background-size: 300% 300%;
+  animation: bakeryGradient 20s ease infinite;
+  color: #333;
+  min-height: 100vh;
+  padding-top: 80px; /* pour navbar fixe */
+}
+
+@keyframes bakeryGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Cards panier */
+.card {
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(139,69,19,0.15);
+}
+
+/* Titres */
+h3, h5 {
+  color: #8B4513;
+  font-weight: 700;
+}
+
+/* Boutons */
+.btn-danger {
+  background: linear-gradient(45deg, #D2691E, #8B4513);
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139,69,19,0.3);
+}
+
+.btn-success {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: white;
+  border: none;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,215,0,0.3);
+}
+
+/* Input adresse */
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #D2691E;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.9);
+}

@@ -4,7 +4,9 @@ import { CommandeService } from '../../services/commande.service';
 
 @Component({
   selector: 'app-panier',
-  templateUrl: './panier.component.html'
+  templateUrl: './panier.component.html',
+  styleUrls: ['./panier.component.css'],
+
 })
 export class PanierComponent {
   adresse: string = ''; // adresse saisie par le client

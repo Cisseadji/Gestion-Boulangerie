@@ -1,11 +1,86 @@
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-  <label for="">Nom</label>
-  <input type="text" class="form-control" formControlName="nom">
-  <div *ngIf="submitted && f['nom'].errors">
-    <span class="text-danger" *ngIf="f['nom'].errors['required']">Nom est obligatoire</span>
-    <span class="text-danger" *ngIf="f['nom'].errors['minlength']">Min 3 caractères</span>
+<div class="container mt-4">
+  <div class="card shadow-lg border-0 rounded p-4">
+    <div class="card-header bg-gradient text-white rounded-top">
+      <h4 class="mb-0">
+        <i class="fas fa-tags me-2"></i> 
+        {{ id ? "Modifier une catégorie" : "Ajouter une catégorie" }}
+      </h4>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+
+        <!-- Nom -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Nom <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="nom" placeholder="Entrez le nom de la catégorie">
+          <div *ngIf="submitted && f['nom'].errors" class="form-text text-danger">
+            <span *ngIf="f['nom'].errors['required']">Nom obligatoire</span>
+            <span *ngIf="f['nom'].errors['minlength']">Min 3 caractères</span>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-success me-2" type="submit">
+            <i class="fas fa-save me-1"></i> {{ id ? "Mettre à jour" : "Enregistrer" }}
+          </button>
+          <button class="btn btn-secondary" routerLink="/admin/categories" type="button">
+            <i class="fas fa-times me-1"></i> Annuler
+          </button>
+        </div>
+
+      </form>
+    </div>
   </div>
+</div>
 
+<style>
+.card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  <button class="btn btn-primary mt-2" type="submit">{{ this.id ? 'Mettre à jour' : 'Enregistrer' }}</button>
-</form>
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card-header.bg-gradient {
+  background: linear-gradient(45deg, #8B4513, #D2691E);
+}
+
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #D2691E;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.9);
+  transition: all 0.3s;
+}
+
+.form-control:focus {
+  border-color: #8B4513;
+  box-shadow: 0 0 10px rgba(139,69,19,0.3);
+}
+
+.btn-success {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,215,0,0.3);
+}
+
+.btn-secondary {
+  border-radius: 12px;
+  font-weight: 600;
+  background: #ccc;
+  color: #333;
+}
+</style>

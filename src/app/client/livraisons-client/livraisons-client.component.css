@@ -1,0 +1,27 @@
+.livraison-card {
+  border-radius: 12px;
+  background: linear-gradient(145deg, #fef3c7, #ffd700); /* couleur chaude type landing */
+  transition: all 0.3s;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.livraison-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.text-warning {
+  font-weight: 600;
+  color: #facc15 !important;
+}
+
+.text-success {
+  font-weight: 600;
+  color: #16a34a !important;
+}
+
+.text-danger {
+  font-weight: 600;
+  color: #dc2626 !important;
+}

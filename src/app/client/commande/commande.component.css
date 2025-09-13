@@ -1,0 +1,74 @@
+/* Cards de la liste des commandes */
+.card {
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(139,69,19,0.15);
+}
+
+/* Titres */
+h5, h6 {
+  color: #8B4513;
+  font-weight: 700;
+}
+
+/* Table */
+.table thead.table-dark {
+  background: linear-gradient(45deg, #D2691E, #8B4513);
+  color: #fff;
+}
+
+.table-hover tbody tr:hover {
+  background: rgba(255, 215, 0, 0.2);
+}
+
+/* Badges statut */
+.badge {
+  font-weight: 600;
+}
+
+/* Boutons */
+.btn-outline-info {
+  border-color: #8B4513;
+  color: #8B4513;
+}
+
+.btn-outline-info:hover {
+  background: #8B4513;
+  color: white;
+}
+
+.btn-outline-warning {
+  border-color: #FFD700;
+  color: #FFD700;
+}
+
+.btn-outline-warning:hover {
+  background: #FFD700;
+  color: #333;
+}
+
+.btn-outline-danger {
+  border-color: #D2691E;
+  color: #D2691E;
+}
+
+.btn-outline-danger:hover {
+  background: #D2691E;
+  color: white;
+}
+
+.btn-secondary {
+  background: #F5DEB3;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #D2691E;
+  color: white;
+}

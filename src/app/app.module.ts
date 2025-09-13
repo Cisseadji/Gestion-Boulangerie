@@ -22,7 +22,6 @@ import { CommandeComponent } from './client/commande/commande.component';
 import { AddCommandeComponent } from './client/add-commande/add-commande.component';
 import { CatalogueComponent } from './client/catalogue/catalogue.component';
 import { PromotionsComponent } from './client/promotions/promotions.component';
-import { SupportComponent } from './client/support/support.component';
 import { PanierComponent } from './client/panier/panier.component';
 import { LivraisonsComponent } from './client/livraisons/livraisons.component';
 import { FactureComponent } from './client/facture/facture.component';
@@ -31,6 +30,7 @@ import { AdminLayoutComponent } from './componets/admin-layout/admin-layout.comp
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LivraisonsClientComponent } from './client/livraisons-client/livraisons-client.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AccueilComponent } from './components/accueil/accueil.component';
 
 
 
@@ -53,13 +53,13 @@ import { ToastrModule } from 'ngx-toastr';
     CatalogueComponent,
     LivraisonsComponent,
     PromotionsComponent,
-    SupportComponent,
     PanierComponent,
     CommandeComponent,
     FactureComponent,
     AddLivraisonComponent,
     AdminLayoutComponent,
     LivraisonsClientComponent,
+    AccueilComponent,
     
  
   ],

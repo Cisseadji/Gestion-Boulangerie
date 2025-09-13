@@ -1,0 +1,97 @@
+/* Body général */
+body {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #2c1810, #8B4513, #D2691E, #FFD700, #FFA500);
+  background-size: 300% 300%;
+  animation: bakeryGradient 20s ease infinite;
+  color: white;
+  overflow-x: hidden;
+}
+
+@keyframes bakeryGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Navbar style Landing Page */
+.custom-navbar {
+  background: rgba(44, 24, 16, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Logo et Brand */
+.navbar-brand {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #FFD700, #FF8C00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  animation: breadBounce 2s ease-in-out infinite;
+}
+
+@keyframes breadBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.1); }
+}
+
+/* Liens du Navbar */
+.nav-link {
+  font-weight: 500;
+  color: rgba(255, 248, 220, 0.95) !important;
+  transition: all 0.3s ease, text-shadow 0.3s ease;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #FFD700 !important;
+  background: rgba(255,215,0,0.1);
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+}
+
+/* Logout */
+.logout-btn {
+  color: #FF6347 !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  color: #FFD700 !important;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* Toggler Mobile */
+.navbar-toggler {
+  border: 2px solid #FFD700;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,215,0,0.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/ %3E%3C/svg%3E");
+}
+
+/* Cards et Dashboard (optionnel, garde ton design précédent) */
+.stats-card, .card {
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stats-card:hover, .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(139, 69, 19, 0.15);
+}

@@ -1,4 +1,70 @@
-<!-- Liste des commandes -->
+ <style>
+/* Boutons style landing */
+.btn-success, .btn-primary, .btn-danger {
+  border: none;
+  border-radius: 8px; /* léger arrondi pour plus de cohérence */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0.6rem 1.2rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* Dégradés landing */
+.btn-success {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: white;
+}
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,215,0,0.3);
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #8B4513, #D2691E);
+  color: white;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139,69,19,0.3);
+}
+
+.btn-danger {
+  background: linear-gradient(45deg, #D2691E, #8B4513);
+  color: white;
+}
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139,69,19,0.3);
+}
+
+/* Table et card */
+.table {
+  background: rgba(255,255,255,0.95);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+img.img-thumbnail {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.badge {
+  font-weight: 600;
+}
+
+.table-dark th {
+  background: linear-gradient(45deg, #8B4513, #D2691E);
+  color: white;
+}
+
+.table-responsive {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+</style>
+
 <div class="container mt-4">
   <div class="card shadow-sm">
     <div class="">

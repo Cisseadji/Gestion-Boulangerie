@@ -1,6 +1,6 @@
 <div class="container mt-4">
-  <div class="card shadow-lg border-0 rounded">
-    <div class="card-header bg-primary text-white">
+  <div class="card shadow-lg border-0 rounded p-4">
+    <div class="card-header bg-gradient text-white rounded-top">
       <h4 class="mb-0">
         <i class="fas fa-user me-2"></i> {{ id ? "Modifier un utilisateur" : "Ajouter un utilisateur" }}
       </h4>
@@ -74,7 +74,58 @@
             <i class="fas fa-times me-1"></i> Annuler
           </button>
         </div>
+
       </form>
     </div>
   </div>
 </div>
+
+<style>
+.card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card-header.bg-gradient {
+  background: linear-gradient(45deg, #8B4513, #D2691E);
+}
+
+.form-control, .form-select {
+  border-radius: 10px;
+  border: 1px solid #D2691E;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.9);
+  transition: all 0.3s;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #8B4513;
+  box-shadow: 0 0 10px rgba(139,69,19,0.3);
+}
+
+.btn-success {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,215,0,0.3);
+}
+
+.btn-secondary {
+  border-radius: 12px;
+  font-weight: 600;
+  background: #ccc;
+  color: #333;
+}
+</style>

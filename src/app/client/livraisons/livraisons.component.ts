@@ -49,4 +49,21 @@ export class LivraisonsComponent implements OnInit {
       }
     });
   }
+
+  
+  deleteLivraison(id: number) {
+  if (!confirm('Voulez-vous vraiment supprimer cette livraison ?')) return;
+
+  this.livraisonService.delete(id).subscribe({
+    next: () => {
+      this.livraisons = this.livraisons.filter(l => l.id !== id);
+      this.successMsg = `Livraison #${id} supprimée ✅`;
+      this.errorMsg = '';
+    },
+    error: () => {
+      this.errorMsg = `Erreur lors de la suppression de la livraison #${id}`;
+      this.successMsg = '';
+    }
+  });
+}
 }

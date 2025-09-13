@@ -24,15 +24,16 @@ import { PanierComponent } from './client/panier/panier.component';
 import { CommandeComponent } from './client/commande/commande.component';
 import { LivraisonsComponent } from './client/livraisons/livraisons.component';
 import { PromotionsComponent } from './client/promotions/promotions.component';
-import { SupportComponent } from './client/support/support.component';
 import { FactureComponent } from './client/facture/facture.component';
 import { AddLivraisonComponent } from './client/add-livraison/add-livraison.component';
 import { AdminLayoutComponent } from './componets/admin-layout/admin-layout.component';
 import { LivraisonsClientComponent } from './client/livraisons-client/livraisons-client.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
 
 const routes: Routes = [
   // Pages publiques
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  { path: '', component: AccueilComponent,pathMatch: 'full' }, 
   { path: 'login', component: UserComponent },
   { path: 'register', component: RegisterComponent },
  
@@ -69,7 +70,6 @@ const routes: Routes = [
       { path: 'commande', component: CommandeComponent },
       { path: 'livraisons', component: LivraisonsClientComponent },
       { path: 'promotions', component: PromotionsComponent },
-      { path: 'support', component: SupportComponent },
       // Redirection par défaut vers catalogue
       { path: '', redirectTo: 'catalogue', pathMatch: 'full' }
     ]
@@ -81,7 +81,6 @@ const routes: Routes = [
   children: [
     { path: 'commande', component: CommandeComponent },
     { path: 'livraisons', component: LivraisonsComponent },
-    { path: 'support', component: SupportComponent },
     { path: 'addLivraison', component: AddLivraisonComponent },
     { path: '', redirectTo: 'commande', pathMatch: 'full' }
   ]

@@ -1,9 +1,9 @@
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm" *ngIf="isAuthenticated()">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg custom-navbar" *ngIf="isAuthenticated()">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold">
-      <i class="fas fa-bread-slice me-2"></i>
-      Admin Boulangerie
+      <i class="fas fa-bread-slice logo-icon me-2"></i>
+      La Fournaise Dorrée
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav me-auto">
         <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
-          <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+          <i class="fas fa-tachometer-alt me-1"></i>Vue D'ensemble
         </a>
         <a class="nav-link" routerLink="/admin/utilisateur" routerLinkActive="active">
           <i class="fas fa-users me-1"></i>Utilisateurs
@@ -26,15 +26,12 @@
         <a class="nav-link" routerLink="/admin/promotions" routerLinkActive="active">
           <i class="fas fa-tags me-1"></i>Promotions
         </a>
-        <!--<a class="nav-link" routerLink="/client/facture" routerLinkActive="active">
-          <i class="fas fa-file-invoice me-1"></i>Factures
-        </a>
         <a class="nav-link" routerLink="/admin/categories" routerLinkActive="active">
           <i class="fas fa-list me-1"></i>Catégories
-        </a>-->
+        </a>
       </div>
       <div class="navbar-nav">
-        <a class="nav-link text-light" (click)="logOut()" style="cursor: pointer;">
+        <a class="nav-link logout-btn" (click)="logOut()" style="cursor: pointer;">
           <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
         </a>
       </div>
@@ -42,7 +39,7 @@
   </div>
 </nav>
 
-<!-- Router Outlet for child routes -->
-<div class="container-fluid mt-3">
+<!-- Main Dashboard Content -->
+<div class="container-fluid mt-4">
   <router-outlet></router-outlet>
 </div>

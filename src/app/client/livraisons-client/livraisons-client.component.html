@@ -1,16 +1,21 @@
-<h3>Mes livraisons</h3>
+<h3 class="mb-3">Mes livraisons</h3>
+
 <div *ngIf="!livraisons.length" class="text-muted">Aucune livraison pour le moment.</div>
-<div class="row g-3" *ngFor="let livraison of livraisons">
-  <div class="col-md-4">
-    <div class="card p-3 shadow-sm">
-      <h5>Commande #{{ livraison.id_commande }}</h5>
-      <p>Adresse: {{ livraison.adresse }}</p>
-      <p>Date prévue: {{ livraison.date_prevue }}</p>
-      <p [ngClass]="{
-        'text-warning': livraison.statut==='EN_COURS',
-        'text-success': livraison.statut==='LIVREE',
-        'text-danger': livraison.statut==='ANNULEE'
-      }">Statut: {{ livraison.statut }}</p>
+
+<div class="row g-3">
+  <div class="col-md-4" *ngFor="let livraison of livraisons">
+    <div class="card livraison-card p-3 shadow-sm">
+      <h5 class="mb-2">Commande #{{ livraison.id_commande }}</h5>
+      <p class="mb-1"><strong>Adresse:</strong> {{ livraison.adresse }}</p>
+      <p class="mb-1"><strong>Date prévue:</strong> {{ livraison.date_prevue | date:'short' }}</p>
+      <p class="mb-0">
+        <strong>Statut:</strong>
+        <span [ngClass]="{
+          'text-warning': livraison.statut==='EN_COURS',
+          'text-success': livraison.statut==='LIVREE',
+          'text-danger': livraison.statut==='ANNULEE'
+        }">{{ livraison.statut }}</span>
+      </p>
     </div>
   </div>
 </div>
